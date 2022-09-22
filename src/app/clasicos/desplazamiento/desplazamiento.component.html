@@ -1,0 +1,62 @@
+<div class="container" id="Desplazamiento">
+    <div>&nbsp;</div> 
+    <div><h1 class="text-center">Desplazamiento</h1></div>
+    <div>&nbsp;</div> 
+    <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-selected="true">Encrypt</button>
+        </li>
+        <li class="nav-item" role="presentation">
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-selected="false">Desencrypt</button>
+        </li>
+        <li class="nav-item" role="presentation">
+        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-selected="false">Atack</button>
+        </li>
+    </ul>
+    <div>&nbsp;</div> 
+
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <form [formGroup] = "formDesplazamiento" #form = "ngForm" (ngSubmit)="capturarValores()">
+            <div class="form-group">
+                <label>Text to encrypt</label>
+                <input matinput class="form-control" formControlName = "text" name="text" required>
+            </div>
+            <div>&nbsp;</div> 
+            <div class="form-group">
+                <label>Key</label>
+                <input matinput class="form-control" formControlName= "key" name="key">
+            </div>
+            <div>&nbsp;</div> 
+            <button type="submit" class="btn btn-primary bg-dark">Submit</button>
+            </form> 
+            <h1> {{textEncrypt}}</h1>
+        </div>
+
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <form>
+                <div class="form-group">
+                    <label>Text to desencrypt</label>
+                    <input class="form-control" placeholder="Enter text">
+                </div>
+                <div>&nbsp;</div> 
+                <div class="form-group">
+                    <label>Key</label>
+                    <input class="form-control" placeholder="Key">
+                </div>
+                <div>&nbsp;</div> 
+                <button type="submit" class="btn btn-primary bg-dark">Submit</button>
+                </form>  
+        </div>
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+            <form>
+                <div class="form-group">
+                    <label>Text to atack</label>
+                    <input class="form-control" placeholder="Enter text">
+                </div>
+                <div>&nbsp;</div> 
+                <button type="submit" class="btn btn-primary bg-dark">Submit</button>
+                </form>  
+        </div>
+    </div>
+</div> 
