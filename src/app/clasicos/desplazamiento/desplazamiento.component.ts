@@ -10,10 +10,13 @@ import { DesplazamientoService } from '../../servicios/clasicos/desplazamiento.s
 export class DesplazamientoComponent implements OnInit {
 
   formDesplazamiento: FormGroup;
-  permutation = {text:"",key:""}
+  desplazamiento = {text:"",key:""}
   text: string;
   key: string;
   textEncrypt: string = '';
+  textDesencrypt: string = '';
+  analysis: string = '';
+  random = false;
 
 
 
@@ -21,27 +24,54 @@ export class DesplazamientoComponent implements OnInit {
     this.text = '';
     this.key = '';
     this.formDesplazamiento = this.formBuilder.group({
-      text:["",Validators.compose([Validators.required])],
-      key:["",Validators.compose([Validators.required])]
+      text:[""],
+      key:[""]
     })
   }  
   
   ngOnInit(): void {    
   }
 
-  capturarValores(){
-    if(this.formDesplazamiento.valid){
-      this.permutation = this.formDesplazamiento.getRawValue();
-    this.conection.getDesplazamientoE(this.permutation.text,this.permutation.key)
+  capturarValoresE(){
+    this.desplazamiento = this.formDesplazamiento.getRawValue();
+    if (this.random){
+      this.desplazamiento.key = this.key
+    }
+    this.conection.getDesplazamientoE(this.desplazamiento.text,this.desplazamiento.key)
     .subscribe(data=>{
       this.textEncrypt = data.TextoEncriptado;
     },
     error=>console.log(error))
-
-    }
-    
-    
-  //console.log(this.textEncrypt);
   }
 
+  capturarValoresD(){
+    console.log(this.random)
+    this.desplazamiento = this.formDesplazamiento.getRawValue();
+    if (this.random){
+      this.desplazamiento.key = this.key
+    }
+    this.conection.getDesplazamientoD(this.desplazamiento.text,this.desplazamiento.key)
+    .subscribe(data=>{
+      this.textDesencrypt = data.TextoDesencriptado;
+    },
+    error=>console.log(error))
+  }
+  
+  capturarValoresA(){
+    if(this.formDesplazamiento.valid){
+      this.desplazamiento = this.formDesplazamiento.getRawValue();
+      console.log('analisis');
+      this.conection.getDesplazamientoA(this.desplazamiento.text,this.desplazamiento.key)
+      .subscribe(data=>{
+        console.log(data.Analisis)
+        this.analysis = data.Analisis;
+      },
+      error=>console.log(error))
+    }
+  }
+
+  getRandomKey(){
+    this.key = String(Math.floor(Math.random() * (26 - 1 + 1)) + 1);
+    this.random = true;
+  }
 }

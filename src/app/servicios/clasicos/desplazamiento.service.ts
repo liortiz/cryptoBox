@@ -11,6 +11,12 @@ export class DesplazamientoService {
   constructor(private http: HttpClient) { }
 
   getDesplazamientoE(text:string,key:string):Observable<any>{
-    return this.http.get(`${this.baseURL}/desplazamiento/encript/${text}&${key}`)
+    return this.http.get(`${this.baseURL}/desplazamiento/encrypt/${text}&${key}`)
+  }
+  getDesplazamientoD(text:string,key:string):Observable<any>{
+    return this.http.get(`${this.baseURL}/desplazamiento/desencrypt/${text}&${key}`)
+  }
+  getDesplazamientoA(text:string,key:string):Observable<any>{
+    return this.http.get(`${this.baseURL}/desplazamiento/analysis/${text}`)
   }
 }
