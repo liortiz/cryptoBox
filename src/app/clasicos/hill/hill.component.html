@@ -1,8 +1,9 @@
 <div class="container">
     <div>&nbsp;</div>
     <div>
-        <h1 class="text-center">Shift</h1>
+        <h1 class="text-center">Hill</h1>
     </div>
+    FALTA CAMBIAR A RECIBIR IMAGENES
     <div>&nbsp;</div>
     <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
@@ -22,7 +23,7 @@
 
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="encrypt" role="tabpanel" aria-labelledby="encrypt-tab">
-            <form class="form-horizontal" [formGroup]="formDesplazamiento" #form="ngForm"
+            <form class="form-horizontal" [formGroup]="formhill" #form="ngForm"
                 (ngSubmit)="capturarValoresE()">
                 <div class="form-group">
                     <label>Text to encrypt</label>
@@ -56,7 +57,7 @@
         </div>
 
         <div class="tab-pane fade" id="desencrypt" role="tabpanel" aria-labelledby="desencrypt-tab">
-            <form [formGroup]="formDesplazamiento" #form="ngForm" (ngSubmit)="capturarValoresD()">
+            <form [formGroup]="formhill" #form="ngForm" (ngSubmit)="capturarValoresD()">
                 <div class="form-group">
                     <label>Text to desencrypt</label> 
                     <input matinput class="form-control" formControlName="text" name="text"  [(ngModel)]=textD required>
@@ -89,10 +90,25 @@
         </div>
 
         <div class="tab-pane fade" id="analysis" role="tabpanel" aria-labelledby="analysis-tab">
-            <form [formGroup]="formDesplazamiento" #form="ngForm" (ngSubmit)="capturarValoresA()">
+            <form [formGroup]="formhill" #form="ngForm" (ngSubmit)="capturarValoresA()">
                 <div class="form-group">
                     <label>Text to attack</label> 
                     <input matinput class="form-control" formControlName="text" name="text"  [(ngModel)]=textA required>
+                </div>
+                <div>&nbsp;</div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label>Plain text</label>
+                        <input class="form-control" formControlName="plain_text" name="plain_text" [(ngModel)]=plain_text>
+                    </div>
+                    <div class="col-md-5">
+                        <label>cipher text</label>
+                        <input class="form-control" formControlName="cipher_text" name="cipher_text" [(ngModel)]=cipher_text>
+                    </div>
+                    <div class="col-md-2">
+                        <div>&nbsp;</div>
+                        <button type="button" class="btn btn-primary bg-dark" (click)="getRandomKey()">Random key</button>
+                    </div>
                 </div>
 
                 <div>&nbsp;</div>

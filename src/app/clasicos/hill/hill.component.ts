@@ -1,19 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { DesplazamientoService } from '../../servicios/clasicos/desplazamiento.service'
+import { hillService } from '../../servicios/clasicos/hill.service'
 
 @Component({
-  selector: 'app-desplazamiento',
-  templateUrl: './desplazamiento.component.html'
+  selector: 'app-hill',
+  templateUrl: './hill.component.html'
 })
-export class DesplazamientoComponent implements OnInit {
+export class hillComponent implements OnInit {
 
-  formDesplazamiento: FormGroup;
-  desplazamiento = {text:"",key:""}
+  formhill: FormGroup;
+  hill = {text:"",key:"",plain_text:"",cipher_text:""}
   textE: string;
   textD: string;
   textA: string;
   key: string;
+  plain_text: string;
+  cipher_text: string;
   textEncrypt: string = '';
   textDesencrypt: string = '';
   analysis: string = '';
@@ -21,14 +23,18 @@ export class DesplazamientoComponent implements OnInit {
 
 
 
-  constructor(private connection: DesplazamientoService, private formBuilder: FormBuilder) { 
+  constructor(private connection: hillService, private formBuilder: FormBuilder) { 
     this.textE = '';
     this.textD = '';
     this.textA = '';
     this.key = '';
-    this.formDesplazamiento = this.formBuilder.group({
+    this.plain_text = '';
+    this.cipher_text = '';
+    this.formhill = this.formBuilder.group({
       text:[""],
-      key:[""]
+      key:[""],
+      plain_text:[""],
+      cipher_text:[""],
     })
   }  
   
@@ -36,11 +42,11 @@ export class DesplazamientoComponent implements OnInit {
   }
 
   capturarValoresE(){
-    this.desplazamiento = this.formDesplazamiento.getRawValue();
+    this.hill = this.formhill.getRawValue();
     if (this.random){
-      this.desplazamiento.key = this.key
+      this.hill.key = this.key
     }
-    this.connection.getDesplazamientoE(this.desplazamiento.text,this.desplazamiento.key)
+    this.connection.gethillE(this.hill.text,this.hill.key)
     .subscribe(data=>{
       this.textEncrypt = data.TextoEncriptado;
     },
@@ -48,11 +54,11 @@ export class DesplazamientoComponent implements OnInit {
   }
 
   capturarValoresD(){
-    this.desplazamiento = this.formDesplazamiento.getRawValue();
+    this.hill = this.formhill.getRawValue();
     if (this.random){
-      this.desplazamiento.key = this.key
+      this.hill.key = this.key
     }
-    this.connection.getDesplazamientoD(this.desplazamiento.text,this.desplazamiento.key)
+    this.connection.gethillD(this.hill.text,this.hill.key)
     .subscribe(data=>{
       this.textDesencrypt = data.TextoDesencriptado;
     },
@@ -60,9 +66,9 @@ export class DesplazamientoComponent implements OnInit {
   }
   
   capturarValoresA(){
-    if(this.formDesplazamiento.valid){
-      this.desplazamiento = this.formDesplazamiento.getRawValue();
-      this.connection.getDesplazamientoA(this.desplazamiento.text,this.desplazamiento.key)
+    if(this.formhill.valid){
+      this.hill = this.formhill.getRawValue();
+      this.connection.gethillA(this.hill.text,this.hill.plain_text,this.hill.cipher_text)
       .subscribe(data=>{
         console.log(data.Analisis)
         this.analysis = data.Analisis;
@@ -81,6 +87,8 @@ export class DesplazamientoComponent implements OnInit {
     this.textD = '';
     this.textA = '';
     this.key = '';
+    this.plain_text = '';
+    this.cipher_text = '';
     this.textEncrypt = '';
     this.textDesencrypt = '';
     this.analysis = '';
