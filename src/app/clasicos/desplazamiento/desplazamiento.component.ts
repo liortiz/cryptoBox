@@ -10,24 +10,19 @@ export class DesplazamientoComponent implements OnInit {
 
   formDesplazamiento: FormGroup;
   desplazamiento = {text:"",key:""}
-  textE: string;
-  textD: string;
-  textA: string;
-  key: string;
+  textE: string = '';
+  textD: string = '';
+  textA: string = '';
+  key: string = '';
   textEncrypt: string = '';
   textDesencrypt: string = '';
   analysis: string = '';
   random = false;
-
-
+  error: string = '(This key must be a number)'
 
   constructor(private connection: DesplazamientoService, private formBuilder: FormBuilder) { 
-    this.textE = '';
-    this.textD = '';
-    this.textA = '';
-    this.key = '';
     this.formDesplazamiento = this.formBuilder.group({
-      text:[""],
+      text:["",Validators.required],
       key:[""]
     })
   }  
@@ -84,5 +79,18 @@ export class DesplazamientoComponent implements OnInit {
     this.textEncrypt = '';
     this.textDesencrypt = '';
     this.analysis = '';
+    this.error = '(This key must be a number)'
+  }
+
+  checkValidKey(){
+    var numKey = Number(this.key)
+    //console.log(typeof numKey)
+    if(Number.isNaN(numKey)){
+      console.log('textoo')
+      this.error = '(Remember: This key must be a number)'
+    }else if(this.key != ''){
+      this.error = ''
+      console.log('numeroo',this.key)
+    }
   }
 }

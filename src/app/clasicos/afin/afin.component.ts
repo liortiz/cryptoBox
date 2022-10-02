@@ -10,11 +10,11 @@ export class AfinComponent implements OnInit {
 
   formafin: FormGroup;
   afin = {text:"",a:"",b:"",fcl:"", fdl:"", scl:"", sdl:""}
-  textE: string;
-  textD: string;
-  textA: string;
-  a: string;
-  b: string;
+  textE: string = '';
+  textD: string = '';
+  textA: string = '';
+  a: string = '';
+  b: string = '';
   fcl:string;fdl:string;scl:string;sdl:string
   textEncrypt: string = '';
   textDesencrypt: string = '';
@@ -24,11 +24,6 @@ export class AfinComponent implements OnInit {
 
 
   constructor(private conection: afinService, private formBuilder: FormBuilder) { 
-    this.textE = '';
-    this.textD = '';
-    this.textA = '';
-    this.a = '';
-    this.b = '';
     this.fcl = '';this.fdl = '';this.scl = '';this.sdl = ''
     this.formafin = this.formBuilder.group({
       text:[""],

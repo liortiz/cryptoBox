@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
-  { path : "", redirectTo : "clasicos", pathMatch : "full"},
+  { path : "",component:HomeComponent},
   { path: "clasicos", loadChildren: () => import('./clasicos/clasicos.module').then(m => m.ClasicosModule) }
 ];
 

@@ -10,7 +10,6 @@ import { sustitucionComponent } from './sustitucion/sustitucion.component';
 import { vigenereComponent } from './vigenere/vigenere.component';
 
 
-
 @NgModule({
   declarations: [
     DesplazamientoComponent,
