@@ -16,21 +16,18 @@ class Sustitucion:
       
     def strToAscii(self,t):
      return [(ord(character)-97) for character in t]
-      
-    def error(self): # cambiar aqui el front-end
-        print("please try another key")
     
-    # def VerifyKey(self):
-    #     a=self.key
-    #     for i in range (97,123):
-    #         a= a.replace(chr(i),"",1)
-    #     if len(a)!=0:
-            
-    #         return True 
-    #     return False
-    #lowercase without blanks
+    def VerifyKey(self):
+        a=self.key
+        for i in range (97,123):
+            a= a.replace(chr(i),"",1)
+        if len(a)!=0:
+            return True 
+        return False
+     #lowercase without blanks
+
     def encriptar(self):
-      
+        self.VerifyKey(self)
         txt= self.strToAscii(self.data)
         askei= self.strToAscii(self.key)
         encript= list(map(lambda c:chr(askei[c]+97),txt)) #chr() de int to ascii
