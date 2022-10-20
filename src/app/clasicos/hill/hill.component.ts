@@ -17,9 +17,11 @@ export class hillComponent implements OnInit {
   plain_text: string;
   cipher_text: string;
   textEncrypt: string = '';
-  textDesencrypt: string = '';
+  textDecrypt: string = '';
   analysis: string = '';
   random = false;
+  img: string = '';
+  imgE: string = ''
 
 
 
@@ -46,11 +48,14 @@ export class hillComponent implements OnInit {
     if (this.random){
       this.hill.key = this.key
     }
+    this.img = '../../../assets/img/' + this.hill.text + '.jpg'
     this.connection.gethillE(this.hill.text,this.hill.key)
     .subscribe(data=>{
       this.textEncrypt = data.TextoEncriptado;
+      
     },
     error=>console.log(error))
+    this.imgE = '../../../assets/img/' + this.hill.text + 'E.jpg'
   }
 
   capturarValoresD(){
@@ -60,7 +65,7 @@ export class hillComponent implements OnInit {
     }
     this.connection.gethillD(this.hill.text,this.hill.key)
     .subscribe(data=>{
-      this.textDesencrypt = data.TextoDesencriptado;
+      this.textDecrypt = data.TextoDesencriptado;
     },
     error=>console.log(error))
   }
@@ -90,7 +95,7 @@ export class hillComponent implements OnInit {
     this.plain_text = '';
     this.cipher_text = '';
     this.textEncrypt = '';
-    this.textDesencrypt = '';
+    this.textDecrypt = '';
     this.analysis = '';
   }
 }

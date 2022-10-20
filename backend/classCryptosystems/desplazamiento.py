@@ -1,10 +1,10 @@
 import random
+import numpy as np
 
 
 
 class Desplazamiento:
     def __init__(self, data, k):
-      
         specialChars = "?!:;().,' " 
         for specialChar in specialChars:
           data = data.replace(specialChar, '')
@@ -12,19 +12,19 @@ class Desplazamiento:
         self.k = int(k)%26
         self.data = data.lower()
 
-    def encriptar(self):
+    def encrypt(self):
         num_data = np.array([ord(c)-97 for c in self.data])
         data_encryption = (num_data + self.k) % 26
         encryption = [chr(c+97) for c in data_encryption]
         return ''.join(encryption)
 
-    def desencriptar(self):
+    def desencrypt(self):
         num_data = np.array([ord(c)-97 for c in self.data])
         data_decryption = (num_data - self.k) % 26
         decryption = [chr(c+97) for c in data_decryption]
         return ''.join(decryption)
 
-    def criptoanalisis(self):
+    def cryptanalysis(self):
         '''possible_words = []
         for i in range(26):
             self.k = i
@@ -36,7 +36,6 @@ class Desplazamiento:
           sum = self.MG(self.data,g)
           if abs(0.65-sum)<best[1]:
             best = [g,abs(0.65-sum)]
-            
         return best[0]
       
     def MG(self,y,g):

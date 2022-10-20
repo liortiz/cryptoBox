@@ -10,8 +10,8 @@
                 type="button" role="tab" aria-selected="true">Encrypt</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="desencrypt-tab" data-bs-toggle="tab" data-bs-target="#desencrypt" type="button"
-                role="tab" aria-selected="false">Desencrypt</button>
+            <button class="nav-link" id="decrypt-tab" data-bs-toggle="tab" data-bs-target="#decrypt" type="button"
+                role="tab" aria-selected="false">Decrypt</button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="analysis-tab" data-bs-toggle="tab" data-bs-target="#analysis" type="button"
@@ -27,6 +27,9 @@
                 <div class="form-group">
                     <label>Text to encrypt</label>
                     <input matinput class="form-control" formControlName="text" name="text"  [(ngModel)]=textE required>
+                    <span *ngIf="this.formafin.get('text')?.errors?.['required']">
+                        (The text cannot be empty)
+                    </span>
                 </div>
                 <div>&nbsp;</div>
                 <div class="form-group">
@@ -34,10 +37,12 @@
                         <div class="col-md-5">
                             <label>Key a</label>
                             <input class="form-control" formControlName="a" name="a" [(ngModel)]=a>
+                            <p>{{this.error}}</p>
                         </div>
                         <div class="col-md-5">
                             <label>Key b</label>
                             <input class="form-control" formControlName="b" name="b" [(ngModel)]=b>
+                            <p>{{this.error}}</p>
                         </div>
                         <div class="col-md-2">
                             <div>&nbsp;</div>
@@ -58,11 +63,14 @@
             <p> {{textEncrypt}}</p>
         </div>
 
-        <div class="tab-pane fade" id="desencrypt" role="tabpanel" aria-labelledby="desencrypt-tab">
+        <div class="tab-pane fade" id="decrypt" role="tabpanel" aria-labelledby="decrypt-tab">
             <form [formGroup]="formafin" #form="ngForm" (ngSubmit)="capturarValoresD()">
                 <div class="form-group">
-                    <label>Text to desencrypt</label> 
+                    <label>Text to decrypt</label> 
                     <input matinput class="form-control" formControlName="text" name="text"  [(ngModel)]=textD required>
+                    <span *ngIf="this.formafin.get('text')?.errors?.['required']">
+                        (The text cannot be empty)
+                    </span>
                 </div>
                 <div>&nbsp;</div>
                 <div class="form-group">
@@ -70,10 +78,12 @@
                         <div class="col-md-5">
                             <label>Key a</label>
                             <input class="form-control" formControlName="a" name="a" [(ngModel)]=a>
+                            <p>{{this.error}}</p>
                         </div>
                         <div class="col-md-5">
                             <label>Key b</label>
                             <input class="form-control" formControlName="b" name="b" [(ngModel)]=b>
+                            <p>{{this.error}}</p>
                         </div>
                         <div class="col-md-2">
                             <div>&nbsp;</div>
@@ -90,8 +100,8 @@
                 </div>
             </form>
             <div>&nbsp;</div>
-            Your text desencrypt:
-            <p> {{textDesencrypt}}</p>
+            Your text decrypt:
+            <p> {{textDecrypt}}</p>
         </div>
 
         <div class="tab-pane fade" id="analysis" role="tabpanel" aria-labelledby="analysis-tab">
@@ -99,29 +109,28 @@
                 <div class="form-group">
                     <label>Text to attack</label> 
                     <input matinput class="form-control" formControlName="text" name="text"  [(ngModel)]=textA required>
+                    <span *ngIf="this.formafin.get('text')?.errors?.['required']">
+                        (The text cannot be empty)
+                    </span>
                 </div>
 
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label>First Crypted Letter</label>
                             <input class="form-control" formControlName="a" name="a" [(ngModel)]=a>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label>First Decrypted Letter</label>
                             <input class="form-control" formControlName="b" name="b" [(ngModel)]=b>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label>Second Crypted Letter</label>
                             <input class="form-control" formControlName="a" name="a" [(ngModel)]=a>
                         </div>
                         <div class="col-md-3 ">
                             <label>Second Decrypted Letter</label>
                             <input class="form-control" formControlName="b" name="b" [(ngModel)]=b>
-                        </div>
-                        <div class="col-md-2">
-                            <div>&nbsp;</div>
-                            <button type="button" class="btn btn-primary bg-dark" (click)="getRandomKey()">Random key</button>
                         </div>
                     </div>
                 </div>

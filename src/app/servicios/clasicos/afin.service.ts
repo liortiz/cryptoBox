@@ -14,9 +14,12 @@ export class afinService {
     return this.http.get(`${this.baseURL}/afin/encrypt/${text}&${a}&${b}`)
   }
   getafinD(text:string,a:string,b:string):Observable<any>{
-    return this.http.get(`${this.baseURL}/afin/desencrypt/${text}&${a}&${b}`)
+    return this.http.get(`${this.baseURL}/afin/decrypt/${text}&${a}&${b}`)
   }
   getafinA(text:string,fcl:string,fdl:string,scl:string,sdl:string):Observable<any>{
     return this.http.get(`${this.baseURL}/afin/analysis/${text}&${fcl}&${fdl}&${scl}&${sdl}`)
+  }
+  getafinRandom():Observable<any>{
+    return this.http.get(`${this.baseURL}/afin/random`)
   }
 }

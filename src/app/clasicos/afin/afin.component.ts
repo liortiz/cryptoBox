@@ -17,9 +17,10 @@ export class AfinComponent implements OnInit {
   b: string = '';
   fcl:string;fdl:string;scl:string;sdl:string
   textEncrypt: string = '';
-  textDesencrypt: string = '';
+  textDecrypt: string = '';
   analysis: string = '';
   random = false;
+  error: string = '(This key must be a number)'
 
 
 
@@ -57,7 +58,7 @@ export class AfinComponent implements OnInit {
     }
     this.conection.getafinD(this.afin.text,this.afin.a,this.afin.b)
     .subscribe(data=>{
-      this.textDesencrypt = data.TextoDesencriptado;
+      this.textDecrypt = data.TextoDesencriptado;
     },
     error=>console.log(error))
   }
@@ -75,9 +76,13 @@ export class AfinComponent implements OnInit {
   }
 
   getRandomKey(){
-    this.a = String(Math.floor(Math.random() * (26 - 1 + 1)) + 1);
-    this.b = String(Math.floor(Math.random() * (26 - 1 + 1)) + 1);
-    // faltan las del analisis
+    this.conection.getafinRandom()
+    .subscribe(data=>{
+      var aux = data.Key.split(',');
+      this.a = aux[0];
+      this.b   = aux[1];
+    },
+    error=>console.log(error))
     this.random = true;
   }
 
@@ -89,7 +94,8 @@ export class AfinComponent implements OnInit {
     this.b = '';
     this.fcl = '';this.fdl = '';this.scl = '';this.sdl = ''
     this.textEncrypt = '';
-    this.textDesencrypt = '';
+    this.textDecrypt = '';
     this.analysis = '';
+    this.error = '(This key must be a number)'
   }
 }

@@ -36,4 +36,4 @@ class Randomkeys:
     phi = [1,3,5,7,9,11,15,17,19,21,23,25]
     a = phi[random.randint(0,11)]
     b = random.randint(0,26)
-    return [a,b]
+    return str(a) + ',' + str(b)

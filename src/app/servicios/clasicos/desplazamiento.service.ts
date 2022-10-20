@@ -14,7 +14,7 @@ export class DesplazamientoService {
     return this.http.get(`${this.baseURL}/desplazamiento/encrypt/${text}&${key}`)
   }
   getDesplazamientoD(text:string,key:string):Observable<any>{
-    return this.http.get(`${this.baseURL}/desplazamiento/desencrypt/${text}&${key}`)
+    return this.http.get(`${this.baseURL}/desplazamiento/decrypt/${text}&${key}`)
   }
   getDesplazamientoA(text:string,key:string):Observable<any>{
     return this.http.get(`${this.baseURL}/desplazamiento/analysis/${text}`)

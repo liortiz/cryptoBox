@@ -6,12 +6,14 @@ import PIL.Image
 import regex as re
 from math import gcd
 from itertools import combinations
+import requests
 
 class  hill:
 
-    def __init__(self,file,k):
-        self.file = file
-        self.k = k
+    def __init__(self,name,k):
+        self.file = 'classCryptosystems/img/' + name + '.jpg'
+        self.k = np.array(k.split(','))
+
 
     def encode_by_k(self, matrix_blocks, encrypted_matrix, encrypt=True):
         # Multiplica los bloques de la matriz por k(llave) en mod 256
@@ -21,7 +23,6 @@ class  hill:
             for i in range(len(matrix_blocks)):
                 aux = np.resize(matrix_blocks[i], (1,len(matrix_blocks[i])))
                 mult.append(np.dot(aux,self.k))
-
 
             mult_mod_256 = (np.array(mult))%256
             mult_mod_256 = np.resize(mult_mod_256,encrypted_matrix.shape)
@@ -251,7 +252,6 @@ class  hill:
         for l in l4:
             print(l)
             print("---------------------------------------------------------------------------")
-
 
 
 
