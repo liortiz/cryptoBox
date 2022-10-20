@@ -17,7 +17,7 @@ class afin:
         encryption = [chr(c+97) for c in data_encryption]
         return ''.join(encryption)
 
-    def desencrypt(self):
+    def decrypt(self):
         num_data = np.array([ord(c)-97 for c in self.data])
         data_decryption = (pow(self.a, -1, 26)*(num_data - self.b)) % 26
         decryption = [chr(c+97) for c in data_decryption]

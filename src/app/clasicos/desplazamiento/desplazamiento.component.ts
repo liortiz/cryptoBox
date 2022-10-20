@@ -15,7 +15,7 @@ export class DesplazamientoComponent implements OnInit {
   textA: string = '';
   key: string = '';
   textEncrypt: string = '';
-  textDesencrypt: string = '';
+  textDecrypt: string = '';
   analysis: string = '';
   random = false;
   error: string = '(This key must be a number)'
@@ -37,6 +37,7 @@ export class DesplazamientoComponent implements OnInit {
     }
     this.connection.getDesplazamientoE(this.desplazamiento.text,this.desplazamiento.key)
     .subscribe(data=>{
+      console.log(data);
       this.textEncrypt = data.TextoEncriptado;
     },
     error=>console.log(error))
@@ -49,7 +50,7 @@ export class DesplazamientoComponent implements OnInit {
     }
     this.connection.getDesplazamientoD(this.desplazamiento.text,this.desplazamiento.key)
     .subscribe(data=>{
-      this.textDesencrypt = data.TextoDesencriptado;
+      this.textDecrypt = data.TextoDesencriptado;
     },
     error=>console.log(error))
   }
@@ -77,7 +78,7 @@ export class DesplazamientoComponent implements OnInit {
     this.textA = '';
     this.key = '';
     this.textEncrypt = '';
-    this.textDesencrypt = '';
+    this.textDecrypt = '';
     this.analysis = '';
     this.error = '(This key must be a number)'
   }
@@ -86,11 +87,9 @@ export class DesplazamientoComponent implements OnInit {
     var numKey = Number(this.key)
     //console.log(typeof numKey)
     if(Number.isNaN(numKey)){
-      console.log('textoo')
       this.error = '(Remember: This key must be a number)'
     }else if(this.key != ''){
       this.error = ''
-      console.log('numeroo',this.key)
     }
   }
 }
