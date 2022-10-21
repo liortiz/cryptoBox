@@ -52,9 +52,12 @@ export class hillComponent implements OnInit {
       this.hill.key = this.key
     }
     this.img = '../../../assets/img/' + this.hill.text + '.jpg'
-    console.log(this.hill.text,this.hill.key,this.hill.n)
     this.connection.gethillE(this.hill.text,this.hill.key,this.hill.n)
-    this.imgE = '../../../assets/img/' + this.hill.text + 'E.jpg'
+    .subscribe(data=>{
+      this.textEncrypt = data.TextoDesencriptado;
+    },
+    error=>console.log(error))
+    this.imgE = '../../../assets/img/' + this.hill.text + 'E.jpeg'
   }
 
   capturarValoresD(){
@@ -74,7 +77,6 @@ export class hillComponent implements OnInit {
       this.hill = this.formhill.getRawValue();
       this.connection.gethillA(this.hill.text,this.hill.plain_text,this.hill.cipher_text)
       .subscribe(data=>{
-        console.log(data.Analisis)
         this.analysis = data.Analisis;
       },
       error=>console.log(error))

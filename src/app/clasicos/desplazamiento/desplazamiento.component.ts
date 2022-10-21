@@ -37,7 +37,6 @@ export class DesplazamientoComponent implements OnInit {
     }
     this.connection.getDesplazamientoE(this.desplazamiento.text,this.desplazamiento.key)
     .subscribe(data=>{
-      console.log(data);
       this.textEncrypt = data.TextoEncriptado;
     },
     error=>console.log(error))
@@ -60,7 +59,6 @@ export class DesplazamientoComponent implements OnInit {
       this.desplazamiento = this.formDesplazamiento.getRawValue();
       this.connection.getDesplazamientoA(this.desplazamiento.text,this.desplazamiento.key)
       .subscribe(data=>{
-        console.log(data.Analisis)
         this.analysis = data.Analisis;
       },
       error=>console.log(error))

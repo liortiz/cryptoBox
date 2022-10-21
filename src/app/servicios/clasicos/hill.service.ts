@@ -11,8 +11,7 @@ export class hillService {
   constructor(private http: HttpClient) { }
 
   gethillE(text:string,key:string,n:string):Observable<any>{
-    console.log('api')
-    console.log(text,key,n)
+    console.log("holiii")
     return this.http.get(`${this.baseURL}/hill/encrypt/${text}&${key}&${n}`)
   }
   gethillD(text:string,key:string):Observable<any>{
