@@ -26,14 +26,14 @@ class Sustitucion:
         return False
      #lowercase without blanks
 
-    def encriptar(self):
+    def encrypt(self):
         self.VerifyKey(self)
         txt= self.strToAscii(self.data)
         askei= self.strToAscii(self.key)
         encript= list(map(lambda c:chr(askei[c]+97),txt)) #chr() de int to ascii
         return "".join(encript)
     
-    def desencriptar(self):
+    def desencrypt(self):
     
         txt2=""
         for c in self.data:

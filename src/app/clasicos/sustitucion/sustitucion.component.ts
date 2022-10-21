@@ -33,6 +33,7 @@ export class sustitucionComponent implements OnInit {
     this.sustitucion = this.formSustitucion.getRawValue();
     if (this.random){
       this.sustitucion.key = this.key
+      console.log(this.sustitucion.key,this.sustitucion.text)
     }
     this.connection.getSustitucionE(this.sustitucion.text,this.sustitucion.key)
     .subscribe(data=>{
