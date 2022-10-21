@@ -10,9 +10,9 @@ import requests
 
 class  hill:
 
-    def __init__(self,name,k):
-        self.file = 'classCryptosystems/img/' + name + '.jpg'
-        self.k = np.array(k.split(','))
+    def __init__(self,file,k,n):
+        self.file = file
+        self.k = self.transform_data(k,n)
 
 
     def encode_by_k(self, matrix_blocks, encrypted_matrix, encrypt=True):
@@ -71,6 +71,7 @@ class  hill:
         arr = np.array(bw_image) # Convertir imagen en matriz
         encrypted_matrix = self.encode_matrix(arr) #Matriz codificada
         encrypted_img = PIL.Image.fromarray(encrypted_matrix)
+        encrypted_img.save('perroE.jpg')
         return encrypted_img
 
 #-------------------------------------------------------------------------------------------------------------------------------------
@@ -253,7 +254,13 @@ class  hill:
             print(l)
             print("---------------------------------------------------------------------------")
 
+    def transform_data(self,st,n):
+        s = st.split(",")
+        s = [int(i) for i in s]
+        k = np.array(s)
+        k = np.split(k,n)
 
+        return np.array(k)
 
 
 

@@ -72,9 +72,9 @@ def desplazamiento_analisis(data):
 
 
 # HILL 
-@app.route('/hill/encrypt/<data>&<p>', methods=['GET'])
-def hill_encript(data,p):
-    textEncrypt =  hill(data,p).encrypt()
+@app.route('/hill/encrypt/<data>&<p>&<n>', methods=['GET'])
+def hill_encript(data,p,n):
+    textEncrypt =  hill(data,p,int(n)).encrypt()
     response = jsonify({'TextoEncriptado': textEncrypt})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response

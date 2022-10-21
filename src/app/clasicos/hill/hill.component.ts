@@ -9,11 +9,12 @@ import { hillService } from '../../servicios/clasicos/hill.service'
 export class hillComponent implements OnInit {
 
   formhill: FormGroup;
-  hill = {text:"",key:"",plain_text:"",cipher_text:""}
+  hill = {text:"",key:"",n:"",plain_text:"",cipher_text:""}
   textE: string;
   textD: string;
   textA: string;
   key: string;
+  n: string;
   plain_text: string;
   cipher_text: string;
   textEncrypt: string = '';
@@ -30,11 +31,13 @@ export class hillComponent implements OnInit {
     this.textD = '';
     this.textA = '';
     this.key = '';
+    this.n = '';
     this.plain_text = '';
     this.cipher_text = '';
     this.formhill = this.formBuilder.group({
       text:[""],
       key:[""],
+      n:[""],
       plain_text:[""],
       cipher_text:[""],
     })
@@ -49,12 +52,8 @@ export class hillComponent implements OnInit {
       this.hill.key = this.key
     }
     this.img = '../../../assets/img/' + this.hill.text + '.jpg'
-    this.connection.gethillE(this.hill.text,this.hill.key)
-    .subscribe(data=>{
-      this.textEncrypt = data.TextoEncriptado;
-      
-    },
-    error=>console.log(error))
+    console.log(this.hill.text,this.hill.key,this.hill.n)
+    this.connection.gethillE(this.hill.text,this.hill.key,this.hill.n)
     this.imgE = '../../../assets/img/' + this.hill.text + 'E.jpg'
   }
 
