@@ -1,4 +1,5 @@
 from base64 import encode
+from ctypes.wintypes import RGB
 from math import ceil, floor
 import re
 import numpy as np
@@ -66,12 +67,15 @@ class  hill:
 
 
     def encrypt(self):
-        image = PIL.Image.open(self.file)
+        rout = "classCryptosystems/img/" + self.file + ".jpg"
+        image = PIL.Image.open(rout)
         bw_image = image.convert("L") #imagen a blanco y negro
         arr = np.array(bw_image) # Convertir imagen en matriz
         encrypted_matrix = self.encode_matrix(arr) #Matriz codificada
         encrypted_img = PIL.Image.fromarray(encrypted_matrix)
-        encrypted_img.save('perroE.jpg')
+        encrypted_img = encrypted_img.convert("RGB")
+        encrypted_img.save("classCryptosystems/img/" + self.file + 'E.jpeg',"JPEG")
+        encrypted_img.save("../src/assets/img/" + self.file + 'E.jpeg',"JPEG")
         return encrypted_img
 
 #-------------------------------------------------------------------------------------------------------------------------------------

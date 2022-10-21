@@ -68,7 +68,6 @@ export class AfinComponent implements OnInit {
       this.afin = this.formafin.getRawValue();
       this.conection.getafinA(this.afin.text,this.afin.fcl,this.afin.fdl,this.afin.scl,this.afin.sdl)
       .subscribe(data=>{
-        console.log(data.Analisis)
         this.analysis = data.Analisis;
       },
       error=>console.log(error))

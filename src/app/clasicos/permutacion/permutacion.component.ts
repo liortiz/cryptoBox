@@ -38,7 +38,6 @@ export class permutacionComponent implements OnInit {
   capturarValoresE(){
     this.permutacion = this.formpermutacion.getRawValue();
     if (this.random){
-      console.log('holaa')
       this.permutacion.key = this.key
     }
   }
