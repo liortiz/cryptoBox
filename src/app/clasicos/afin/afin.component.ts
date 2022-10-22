@@ -15,7 +15,10 @@ export class AfinComponent implements OnInit {
   textA: string = '';
   a: string = '';
   b: string = '';
-  fcl:string;fdl:string;scl:string;sdl:string
+  fcl:string = '';
+  fdl:string = '';
+  scl:string = '';
+  sdl:string = '';
   textEncrypt: string = '';
   textDecrypt: string = '';
   analysis: string = '';
@@ -79,7 +82,7 @@ export class AfinComponent implements OnInit {
     .subscribe(data=>{
       var aux = data.Key.split(',');
       this.a = aux[0];
-      this.b   = aux[1];
+      this.b = aux[1];
     },
     error=>console.log(error))
     this.random = true;
@@ -91,7 +94,7 @@ export class AfinComponent implements OnInit {
     this.textA = '';
     this.a = '';
     this.b = '';
-    this.fcl = '';this.fdl = '';this.scl = '';this.sdl = ''
+    this.fcl = '';this.fdl = '';this.scl = '';this.sdl = '';
     this.textEncrypt = '';
     this.textDecrypt = '';
     this.analysis = '';

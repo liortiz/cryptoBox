@@ -16,7 +16,7 @@ class permutacion:
             encryption += a
         return encryption
 
-    def desencrypt(self):
+    def decrypt(self):
         self.permutation = self.inverPermutation()
         return self.encrypt()
 

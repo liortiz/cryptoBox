@@ -59,7 +59,7 @@
                 </div>
             </form>
             <div>&nbsp;</div>
-            Your text encrypt:
+            Your encrypted text:
             <p> {{textEncrypt}}</p>
         </div>
 
@@ -100,7 +100,7 @@
                 </div>
             </form>
             <div>&nbsp;</div>
-            Your text decrypt:
+            Your decrypted text:
             <p> {{textDecrypt}}</p>
         </div>
 
@@ -118,19 +118,19 @@
                     <div class="row">
                         <div class="col-md-3">
                             <label>First Crypted Letter</label>
-                            <input class="form-control" formControlName="a" name="a" [(ngModel)]=a>
+                            <input class="form-control" formControlName="fcl" name="fcl" [(ngModel)]=fcl>
                         </div>
                         <div class="col-md-3">
                             <label>First Decrypted Letter</label>
-                            <input class="form-control" formControlName="b" name="b" [(ngModel)]=b>
+                            <input class="form-control" formControlName="fdl" name="fdl" [(ngModel)]=fdl>
                         </div>
                         <div class="col-md-3">
                             <label>Second Crypted Letter</label>
-                            <input class="form-control" formControlName="a" name="a" [(ngModel)]=a>
+                            <input class="form-control" formControlName="scl" name="scl" [(ngModel)]=scl>
                         </div>
                         <div class="col-md-3 ">
                             <label>Second Decrypted Letter</label>
-                            <input class="form-control" formControlName="b" name="b" [(ngModel)]=b>
+                            <input class="form-control" formControlName="sdl" name="sdl" [(ngModel)]=sdl>
                         </div>
                     </div>
                 </div>
@@ -143,7 +143,7 @@
                 </div>
             </form>
             <div>&nbsp;</div>
-            Your possible texts:
+            The decrypted text is:
             <p> {{analysis}}</p>
         </div>
     </div>

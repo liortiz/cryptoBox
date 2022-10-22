@@ -18,7 +18,7 @@ class Desplazamiento:
         encryption = [chr(c+97) for c in data_encryption]
         return ''.join(encryption)
 
-    def desencrypt(self):
+    def decrypt(self):
         num_data = np.array([ord(c)-97 for c in self.data])
         data_decryption = (num_data - self.k) % 26
         decryption = [chr(c+97) for c in data_decryption]

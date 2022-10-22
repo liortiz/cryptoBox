@@ -49,8 +49,6 @@ class afin:
         
         self.a =  (pow(SDL-FDL, -1, 26)*(SCL-FCL))% 26
         self.b = (FCL- (self.a*FDL)) % 26
-
-        print(self.a, self.b)
         
         decryption = self.desencriptar()
         return decryption
