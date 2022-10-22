@@ -38,7 +38,7 @@ def afin_decrypt(data,a,b):
 @app.route('/afin/analysis/<data>&<fcl>&<fdl>&<scl>&<sdl>', methods=['GET'])
 def afin_analisis(data,fcl, fdl, scl, sdl):
     data = preparacion(data)
-    analisis =  afin(data,1).cryptanalysis(fcl, fdl, scl, sdl)
+    analisis =  afin(data,1,1).cryptanalysis(fcl, fdl, scl, sdl)
     response = jsonify({'Analisis': analisis})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
@@ -65,7 +65,8 @@ def desplazamiento_decrypt(data,p):
 @app.route('/desplazamiento/analysis/<data>', methods=['GET'])
 def desplazamiento_analisis(data):
     data = preparacion(data)
-    analisis =  Desplazamiento(data,1).cryptanalysis()
+    k =  Desplazamiento(data,1).cryptanalysis()
+    analisis = Desplazamiento(data,int(k)).decrypt()
     response = jsonify({'Analisis': analisis})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response

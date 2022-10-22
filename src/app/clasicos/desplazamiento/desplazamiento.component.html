@@ -55,14 +55,14 @@
                 </div>
             </form>
             <div>&nbsp;</div>
-            Your text encrypt:
+            Your encrypted text:
             <p> {{textEncrypt}}</p>
         </div>
 
         <div class="tab-pane fade" id="desencrypt" role="tabpanel" aria-labelledby="desencrypt-tab">
             <form [formGroup]="formDesplazamiento" #form="ngForm" (ngSubmit)="capturarValoresD()">
                 <div class="form-group">
-                    <label>Text to desencrypt</label> 
+                    <label>Text to decrypt</label> 
                     <input matinput class="form-control" formControlName="text" name="text"  [(ngModel)]=textD required>
                     <span *ngIf="this.formDesplazamiento.get('text')?.errors?.['required']">
                         (The text cannot be empty)
@@ -92,7 +92,7 @@
                 </div>
             </form>
             <div>&nbsp;</div>
-            Your text desencrypt:
+            Your decrypted text:
             <p> {{textDecrypt}}</p>
         </div>
 
@@ -115,7 +115,7 @@
                 </div>
             </form>
             <div>&nbsp;</div>
-            Your possible texts:
+            The decrypted text is:
             <p> {{analysis}}</p>
         </div>
     </div>
