@@ -10,24 +10,21 @@ export class permutacionComponent implements OnInit {
 
   formpermutacion: FormGroup;
   permutacion = {text:"",key:""}
-  textE: string;
-  textD: string;
-  textA: string;
-  key: string;
+  textE: string='';
+  textD: string='';
+  textA: string='';
+  key: string='';
   textEncrypt: string = '';
   textDecrypt: string = '';
   analysis: string = '';
   random = false;
+  error: string = '(This key must be a number)'
 
 
 
   constructor(private connection: PermutacionService, private formBuilder: FormBuilder) { 
-    this.textE = '';
-    this.textD = '';
-    this.textA = '';
-    this.key = '';
     this.formpermutacion = this.formBuilder.group({
-      text:[""],
+      text:["",Validators.required],
       key:[""]
     })
   }  
@@ -40,6 +37,12 @@ export class permutacionComponent implements OnInit {
     if (this.random){
       this.permutacion.key = this.key
     }
+    this.connection.getPermutacionE(this.permutacion.text,this.permutacion.key)
+    .subscribe(data=>{
+      console.log(data.TextoEncriptado);
+      this.textEncrypt = data.TextoEncriptado;
+    },
+    error=>console.log(error))
   }
 
   capturarValoresD(){
@@ -47,13 +50,32 @@ export class permutacionComponent implements OnInit {
     if (this.random){
       this.permutacion.key = this.key
     }
+    this.connection.getPermutacionD(this.permutacion.text,this.permutacion.key)
+    .subscribe(data=>{
+      this.textDecrypt = data.TextoDesencriptado;
+    },
+    error=>console.log(error))
   }
   
   capturarValoresA(){
+    if(this.formpermutacion.valid){
+      this.permutacion = this.formpermutacion.getRawValue();
+      console.log('capturarValoresA()',this.permutacion.text);
+     
+      this.connection.getPermutacionA(this.permutacion.text,'012')
+      .subscribe(data=>{
+        this.analysis = data.Analisis;
+      },
+      error=>console.log(error))
+    }
   }
 
   getRandomKey(){
-    this.key = String(Math.floor(Math.random() * (26 - 1 + 1)) + 1);
+    this.connection.getPermutacionRandom()
+    .subscribe(data=>{
+      this.key = data.Key;
+    },
+    error=>console.log(error)) 
     this.random = true;
   }
 
@@ -65,5 +87,7 @@ export class permutacionComponent implements OnInit {
     this.textEncrypt = '';
     this.textDecrypt = '';
     this.analysis = '';
+    this.error = '(This key must be a number)'
   }
+
 }

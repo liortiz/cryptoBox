@@ -5,6 +5,7 @@ from classCryptosystems.desplazamiento import Desplazamiento
 from classCryptosystems.hill import hill
 from classCryptosystems.sustitucion import Sustitucion
 from classCryptosystems.permutacion import permutacion
+from classCryptosystems.vigenere import Vigenere
 
 from utils.randomkeys import Randomkeys
 
@@ -96,27 +97,31 @@ def hill_analisis(data):
     return response
 
 # PERMUTACION 
-@app.route('/permutacion/encript/<data>&<p>', methods=['GET'])
+@app.route('/permutacion/encrypt/<data>&<p>', methods=['GET'])
 def permutacion_encript(data,p):
+    data = preparacion(data)
     textEncrypt =  permutacion(data,p).encrypt()
+    print("server"+textEncrypt)
     response = jsonify({'TextoEncriptado': textEncrypt})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
+    
 
 @app.route('/permutacion/decrypt/<data>&<p>', methods=['GET'])
 def permutacion_decrypt(data,p):
-    textDesncrypt =  permutacion(data,p).decrypt()
-    response = jsonify({'Textodecryptado': textDesncrypt})
+    textDecrypt =  permutacion(data,p).decrypt()
+    response = jsonify({'TextoDesencriptado': textDecrypt})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-# to do
-@app.route('/permutacion/analisis/<plain_text>&<cipher_text>', methods=['GET'])
+@app.route('/permutacion/analysis/<data>', methods=['GET'])
 def permutacion_analisis(data):
-    analysis =  permutacion(data,[]).cryptanalysis()
-    response = jsonify({'Analisis': analysis})
+    q = "01"
+    analisis =  ','.join(permutacion(data,q).cryptanalysis())
+    response = jsonify({'Analisis': analisis})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
+
 
 # SUSTITUCION 
 @app.route('/sustitucion/encrypt/<data>&<p>', methods=['GET'])
@@ -141,6 +146,32 @@ def sustitution_analisis(data):
     return response
 # VIGENERE
 
+@app.route('/vigenere/encrypt/<data>&<p>', methods=['GET'])
+def vigenere_encript(data,p):
+    textEncrypt =  Vigenere(data,p).encrypt()
+    response = jsonify({'TextoEncriptado': textEncrypt})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/vigenere/decrypt/<data>&<p>', methods=['GET'])
+def vigenere_decrypt(data,p):
+    print(data)
+    data = preparacion(data)
+    textDecrypt =  Vigenere(data,p).decrypt()
+    response = jsonify({'TextoDesencriptado': textDecrypt})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/vigenere/analysis/<data>', methods=['GET'])
+def vigenere_analisis(data):
+    k =  Vigenere(data,'hola').cryptanalysis(30)
+    analisis = Vigenere(data,k).decrypt()
+    response = jsonify({'Analisis': analisis})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+
+
 # RANDOM KEYS
 @app.route('/afin/random', methods=['GET'])
 def afin_random():
@@ -149,6 +180,19 @@ def afin_random():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
+@app.route('/permutacion/random', methods=['GET'])
+def permutacion_random():
+    key = Randomkeys.permutacionRandomKey()
+    response = jsonify({'Key': key})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/vigenere/random', methods=['GET'])
+def vigenere_random():
+    key = Randomkeys.vigenereRandomKey()
+    response = jsonify({'Key': key})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 if __name__ == "__main__":
     app.run(debug=True)

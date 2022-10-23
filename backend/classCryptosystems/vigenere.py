@@ -21,7 +21,7 @@ class Vigenere:
 
 
   
-    def encriptar(self):
+    def encrypt(self):
 
       num_data = np.array([ord(c)-97 for c in self.data])
       num_key = np.array([ord(d)-97 for d in self.k])
@@ -31,7 +31,7 @@ class Vigenere:
       encryption = [chr(c+97) for c in data_encryption]
       return ''.join(encryption)
 
-    def desencriptar(self):
+    def decrypt(self):
       
         num_data = np.array([ord(c)-97 for c in self.data])
         num_key = np.array([ord(d)-97 for d in self.k])
@@ -41,7 +41,7 @@ class Vigenere:
         decryption = [chr(c+97) for c in data_decryption]
         return ''.join(decryption)
 
-    def criptoanalisis(self, MaxLonKey):
+    def cryptanalysis(self, MaxLonKey):
       KeyLonFound = False
       
       m=2

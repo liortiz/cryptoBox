@@ -2,9 +2,13 @@ import numpy as np
 import itertools
 
 class permutacion:
-    def __init__(self, data, p):
+    def __init__(self, data, q):
+        specialChars = "?!:;()..,' " 
+        for specialChar in specialChars:
+          data = data.replace(specialChar, '')
+        
         self.data = data       
-        self.permutation = [int(x) for x in p.split(",")]
+        self.permutation = [int(x) for x in q.split(",")]
         self.m = len(self.permutation)
         self.listdata = self.separar()
         
@@ -14,6 +18,7 @@ class permutacion:
         for i in self.listdata:
             a = "".join(self.permuPartition(i, self.permutation))
             encryption += a
+        print('este es el .py'+ encryption)
         return encryption
 
     def decrypt(self):
@@ -21,14 +26,18 @@ class permutacion:
         return self.encrypt()
 
     def cryptanalysis(self):
-        print(self.data)
+       
         divisores = []
         for i in range(1, (len(self.data)//2)+1) :
             if(len(self.data))%i == 0 and i <=6 :
                 divisores.append(i)
+        possibilities = []    
+        if divisores == [1]:
+            divisores.append(len(self.data))
         for d in divisores:
+            
             self.m = d
-            possibilities = []
+            
             listdata = self.separar()
             permutations = list(itertools.permutations(list(range(d))))
             permutations.pop(0)
@@ -36,7 +45,10 @@ class permutacion:
                 p = ""
                 for l in listdata:
                     p += "".join(self.permuPartition(l,k))
-            possibilities.append(p)
+                    
+                possibilities.append(p)
+                if len(possibilities) >50:
+                    break
         return possibilities
 
     def separar(self):
