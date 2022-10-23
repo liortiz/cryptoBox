@@ -12,6 +12,7 @@ export class SustitucionService {
 
   getSustitucionE(text:string,key:string):Observable<any>{
     return this.http.get(`${this.baseURL}/sustitucion/encrypt/${text}&${key}`)
+    console.log(`${text}&${key}`)
   }
   getSustitucionD(text:string,key:string):Observable<any>{
     return this.http.get(`${this.baseURL}/sustitucion/decrypt/${text}&${key}`)
