@@ -7,7 +7,7 @@ from string import ascii_letters
 
 class Sustitucion:
     def __init__(self, data, key):
-        specialChars = "?!:;().,'’ " 
+        specialChars = "?!:;().,'’` " 
         for specialChar in specialChars:
           data = data.replace(specialChar, '')
         self.data = data.lower()
@@ -27,14 +27,13 @@ class Sustitucion:
      #lowercase without blanks
 
     def encrypt(self):
-        self.VerifyKey(self)
+        self.VerifyKey()
         txt= self.strToAscii(self.data)
         askei= self.strToAscii(self.key)
         encript= list(map(lambda c:chr(askei[c]+97),txt)) #chr() de int to ascii
         return "".join(encript)
     
-    def desencrypt(self):
-    
+    def decrypt(self):
         txt2=""
         for c in self.data:
             txt2 += chr(self.key.find(c)+97)

@@ -3,6 +3,7 @@ from flask import Flask, jsonify
 from classCryptosystems.afin import afin
 from classCryptosystems.desplazamiento import Desplazamiento
 from classCryptosystems.hill import hill
+from classCryptosystems.sustitucion import Sustitucion
 from classCryptosystems.permutacion import permutacion
 
 from utils.randomkeys import Randomkeys
@@ -118,6 +119,26 @@ def permutacion_analisis(data):
     return response
 
 # SUSTITUCION 
+@app.route('/sustitucion/encrypt/<data>&<p>', methods=['GET'])
+def sustitution_encript(data,p):
+    textEncrypt =  Sustitucion(data,p).encrypt()
+    response = jsonify({'TextoEncriptado': textEncrypt})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/sustitucion/decrypt/<data>&<p>', methods=['GET'])
+def sustitution_decrypt(data,p):
+    textDecrypt =  Sustitucion(data,p).decrypt()
+    response = jsonify({'TextoDesencriptado': textDecrypt})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/sustitucion/analysis/<data>', methods=['GET'])
+def sustitution_analisis(data):
+    analisis =  Sustitucion(data,1).cryptanalysis()
+    response = jsonify({'Analisis': analisis})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 # VIGENERE
 
 # RANDOM KEYS

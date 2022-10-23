@@ -28,6 +28,10 @@ yarn-error.log
 !.vscode/extensions.json
 .history/*
 
+#backend  venv
+backend/venv/*
+!.backend/venv/Scripts
+
 # Miscellaneous
 /.angular/cache
 .sass-cache/

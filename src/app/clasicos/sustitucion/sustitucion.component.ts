@@ -37,8 +37,8 @@ export class sustitucionComponent implements OnInit {
     }
     this.connection.getSustitucionE(this.sustitucion.text,this.sustitucion.key)
     .subscribe(data=>{
-      this.textEncrypt = "hey hey hey";
-      // this.textEncrypt = data.TextoEncriptado;
+      //this.textEncrypt = "hey hey hey";
+      this.textEncrypt = data.TextoEncriptado;
     },
     error=>console.log(error))
   }
