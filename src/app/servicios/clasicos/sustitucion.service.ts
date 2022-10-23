@@ -15,7 +15,7 @@ export class SustitucionService {
     console.log(`${text}&${key}`)
   }
   getSustitucionD(text:string,key:string):Observable<any>{
-    return this.http.get(`${this.baseURL}/sustitucion/desencrypt/${text}&${key}`)
+    return this.http.get(`${this.baseURL}/sustitucion/decrypt/${text}&${key}`)
   }
   getSustitucionA(text:string,key:string):Observable<any>{
     return this.http.get(`${this.baseURL}/sustitucion/analysis/${text}`)
