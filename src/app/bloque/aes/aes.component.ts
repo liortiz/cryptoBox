@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { AesService } from '../../servicios/bloque/aes.service'
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-aes',
@@ -8,8 +9,9 @@ import { AesService } from '../../servicios/bloque/aes.service'
 })
 export class AesComponent implements OnInit {
   formAes: FormGroup;
-  aes = {text:"",key:""}
-  textE: string = '';
+  aes = {img: "",key:""}
+  img: string = '';
+  imgE: string = '';
   textD: string = '';
   textA: string = '';
   key: string = '';
@@ -18,9 +20,9 @@ export class AesComponent implements OnInit {
   analysis: string = '';
   random = false;
   error: string = '(This key must have every character once )'
-  constructor(private connection: AesService, private formBuilder: FormBuilder) { 
+  constructor(private connection: AesService, private formBuilder: FormBuilder,private sanitizer: DomSanitizer) { 
     this.formAes = this.formBuilder.group({
-      text:["",Validators.required],
+      img:["",Validators.required],
       key:[""]
     })
   }
@@ -28,17 +30,23 @@ export class AesComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  capturarValoresE(){
+  capturarFile(event:any){
+    this.img = event.target.files[0]
+    console.log('hiiii')
+    this.extraerBase64(this.img).then((imagen: any) => {
+      this.img = imagen.base;
+    })
     this.aes = this.formAes.getRawValue();
-    if (this.random){
-      this.aes.key = this.key
-      console.log(this.aes.key,this.aes.text)
-    }
-    this.connection.getAesE(this.aes.text,this.aes.key)
-    .subscribe(data=>{
-      this.textEncrypt = data.TextoEncriptado;
-    },
-    error=>console.log(error))
+    console.log(this.aes.img.split('\\')[2])
+    this.connection.getAesE(this.aes.img.split('\\')[2],this.aes.key)
+    .subscribe(res=>{
+      console.log(res);      
+    })
+  }
+
+  capturarValoresE(){    
+    this.imgE = '../../../assets/img/result.jpeg'
+    console.log(this.imgE)
   }
 
   capturarValoresD(){
@@ -46,21 +54,11 @@ export class AesComponent implements OnInit {
     if (this.random){
       this.aes.key = this.key
     }
-    this.connection.getAesD(this.aes.text,this.aes.key)
-    .subscribe(data=>{
-      this.textDesencrypt = data.TextoDesencriptado;
-    },
-    error=>console.log(error))
   }
   
   capturarValoresA(){
     if(this.formAes.valid){
       this.aes = this.formAes.getRawValue();
-      this.connection.getAesA(this.aes.text,this.aes.key)
-      .subscribe(data=>{
-        this.analysis = data.Analisis;
-      },
-      error=>console.log(error))
     }
   }
 
@@ -75,7 +73,6 @@ export class AesComponent implements OnInit {
   }
 
   reset(){
-    this.textE = '';
     this.textD = '';
     this.textA = '';
     this.key = '';
@@ -89,17 +86,28 @@ export class AesComponent implements OnInit {
     var a, x;
     a = this.key;
     x = false;
-
-    if(Number.isNaN(Number(this.key))){
-    for (var i = 97, _pj_a = 123; i < _pj_a; i += 1) {
-      a = a.replace(String.fromCharCode(i), "");}
-      if (a.length !== 0) {
-        this.error = '(Remember: This key must have every char once)'
-      }else{
-        this.error = ""
-      }}else if(this.key != ''){
-      this.error = '(Remember: This key is not numeric, it must have every char once)'
-    }
   }
+
+  extraerBase64 = async ($event: any) => new Promise((resolve, reject) => {
+    try {
+      const unsafeImg = window.URL.createObjectURL($event);
+      const image = this.sanitizer.bypassSecurityTrustUrl(unsafeImg);
+      const reader = new FileReader();
+      reader.readAsDataURL($event);
+      reader.onload = () => {
+        resolve({
+          base: reader.result
+        });
+      };
+      reader.onerror = error => {
+        resolve({
+          base: null
+        });
+      };
+      return 1
+    } catch (e) {
+      return null;
+    }
+  })
 }
 

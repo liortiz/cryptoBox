@@ -67,15 +67,15 @@ class  hill:
 
 
     def encrypt(self):
-        rout = "classCryptosystems/img/" + self.file + ".jpg"
+        rout = "classCryptosystems/img/" + self.file 
         image = PIL.Image.open(rout)
         bw_image = image.convert("L") #imagen a blanco y negro
         arr = np.array(bw_image) # Convertir imagen en matriz
         encrypted_matrix = self.encode_matrix(arr) #Matriz codificada
         encrypted_img = PIL.Image.fromarray(encrypted_matrix)
         encrypted_img = encrypted_img.convert("RGB")
-        encrypted_img.save("classCryptosystems/img/" + self.file + 'E.jpeg',"JPEG")
-        encrypted_img.save("../src/assets/img/" + self.file + 'E.jpeg',"JPEG")
+        #encrypted_img.save("classCryptosystems/img/" + self.file + 'E.jpeg',"JPEG")
+        encrypted_img.save("../src/assets/img/result.jpeg","JPEG")
         return encrypted_img
 
 #-------------------------------------------------------------------------------------------------------------------------------------

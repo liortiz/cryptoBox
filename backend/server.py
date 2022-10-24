@@ -1,4 +1,6 @@
-from flask import Flask, jsonify
+from fileinput import filename
+from urllib import request
+from flask import Flask, jsonify, request
 
 from classCryptosystems.afin import afin
 from classCryptosystems.desplazamiento import Desplazamiento
@@ -8,8 +10,16 @@ from classCryptosystems.permutacion import permutacion
 from classCryptosystems.vigenere import Vigenere
 
 from utils.randomkeys import Randomkeys
+from flask_cors import CORS
+
 
 app = Flask(__name__)
+CORS(app)
+cors = CORS(app,resources={
+    r"/*":{
+        "origins": "*"
+    }
+})
 app.config["DEBUG"] = True
 app.debug = True
 
@@ -193,6 +203,16 @@ def vigenere_random():
     response = jsonify({'Key': key})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
+
+
+@app.route('/aes/encrypt/<data>&<p>', methods=['GET'])
+def aes_encript(data,p):
+    textEncrypt =  hill(data,p,2).encrypt()
+    response = jsonify({'TextoEncriptado': "hill"})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

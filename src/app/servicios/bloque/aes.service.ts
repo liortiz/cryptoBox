@@ -10,8 +10,9 @@ export class AesService {
 
   constructor(private http: HttpClient) { }
 
-  getAesE(text:string,key:string):Observable<any>{
-    return this.http.get(`${this.baseURL}/aes/encrypt/${text}&${key}`)
+  getAesE(img:string,key:string):Observable<any>{
+    console.log('conexión',img,key)
+    return this.http.get(`${this.baseURL}/aes/encrypt/${img}&${key}`)
   }
   getAesD(text:string,key:string):Observable<any>{
     return this.http.get(`${this.baseURL}/aes/desencrypt/${text}&${key}`)
