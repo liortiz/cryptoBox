@@ -18,7 +18,7 @@ export class permutacionComponent implements OnInit {
   textDecrypt: string = '';
   analysis: string = '';
   random = false;
-  error: string = '(This key must be a number)'
+  error: string = '(This key must be a permutation of n numbers, like 1,0 or 2,0,3,1)'
 
 
 
