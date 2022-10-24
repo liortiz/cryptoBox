@@ -140,7 +140,7 @@ def sustitution_decrypt(data,p):
 
 @app.route('/sustitucion/analysis/<data>', methods=['GET'])
 def sustitution_analisis(data):
-    analisis =  Sustitucion(data,1).cryptanalysis()
+    analisis =  Sustitucion(data,1).analysis()
     response = jsonify({'Analisis': analisis})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
