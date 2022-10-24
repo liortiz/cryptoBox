@@ -2,7 +2,7 @@
 <div class="container">
     <div>&nbsp;</div>
     <div>
-        <h1 class="text-center">Aess</h1>
+        <h1 class="text-center">Hill</h1>
     </div>
     <div>&nbsp;</div>
     <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
@@ -23,7 +23,7 @@
 
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="encrypt" role="tabpanel" aria-labelledby="encrypt-tab">
-            <form class="form-horizontal" [formGroup]="formAes" #form="ngForm">
+            <form class="form-horizontal" [formGroup]="formAes" #form="ngForm" (ngSubmit)="capturarValoresE()">
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-5">
@@ -52,12 +52,12 @@
             </form>
             <div>&nbsp;</div>
             Your text encrypt:
-            <div class="row">
-                <div class="col-md-5" *ngIf="img">
-                    <img [src]='img' class="img-fluid">
+            <div class="row center">
+                <div class="col-md-5 mx-auto" >
+                    <img [src]='img' class="img-fluid" *ngIf="img">
                 </div>
-                <div class="col-md-5" *ngIf="imgE">
-                    <img [src]='imgE' class="img-fluid">
+                <div class="col-md-5 mx-auto" >
+                    <img [src]='imgE' class="img-fluid" *ngIf="imgE">
                 </div>
             </div>
             <div>&nbsp;</div>

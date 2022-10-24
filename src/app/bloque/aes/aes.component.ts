@@ -11,6 +11,7 @@ export class AesComponent implements OnInit {
   formAes: FormGroup;
   aes = {img: "",key:""}
   img: string = '';
+  imgName: string = '';
   imgE: string = '';
   textD: string = '';
   textA: string = '';
@@ -32,21 +33,23 @@ export class AesComponent implements OnInit {
 
   capturarFile(event:any){
     this.img = event.target.files[0]
-    console.log('hiiii')
     this.extraerBase64(this.img).then((imagen: any) => {
       this.img = imagen.base;
     })
     this.aes = this.formAes.getRawValue();
-    console.log(this.aes.img.split('\\')[2])
-    this.connection.getAesE(this.aes.img.split('\\')[2],this.aes.key)
-    .subscribe(res=>{
-      console.log(res);      
-    })
+    this.imgName = this.aes.img.split('\\')[2]
+    this.imgE = ''
   }
 
-  capturarValoresE(){    
-    this.imgE = '../../../assets/img/result.jpeg'
-    console.log(this.imgE)
+
+
+  capturarValoresE(){        
+    this.aes = this.formAes.getRawValue();
+    this.imgE = '../../../assets/img/loading.gif'
+    this.connection.getAesE(this.imgName,this.aes.key)
+    .subscribe(res=>{ 
+      this.imgE = '../../../assets/img/result.jpeg'  
+    })
   }
 
   capturarValoresD(){
