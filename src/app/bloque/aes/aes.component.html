@@ -14,10 +14,6 @@
             <button class="nav-link" id="desencrypt-tab" data-bs-toggle="tab" data-bs-target="#desencrypt" type="button"
                 role="tab" aria-selected="false">Desencrypt</button>
         </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="analysis-tab" data-bs-toggle="tab" data-bs-target="#analysis" type="button"
-                role="tab" aria-selected="false">Attack</button>
-        </li>
     </ul>
     <div>&nbsp;</div>
 
@@ -97,28 +93,6 @@
             <p> {{textDesencrypt}}</p>
         </div>
 
-        <div class="tab-pane fade" id="analysis" role="tabpanel" aria-labelledby="analysis-tab">
-            <form [formGroup]="formAes" #form="ngForm" (ngSubmit)="capturarValoresA()">
-                <div class="form-group">
-                    <label>Text to attack</label> 
-                    <input matinput class="form-control" formControlName="text" name="text"  [(ngModel)]=textA required>
-                    <span *ngIf="this.formAes.get('text')?.errors?.['required']">
-                        (The text cannot be empty)
-                    </span>
-                </div>
-
-                <div>&nbsp;</div>
-                <div class="row">
-                    <div class="col-md-1"><button type="submit" class="btn btn-primary bg-dark">Submit</button></div>
-                    <div class="col-md-1">
-                        <button type="button" class="btn btn-primary bg-dark" (click)="reset()">Reset</button>
-                    </div>
-                </div>
-            </form>
-            <div>&nbsp;</div>
-            Your possible texts:
-            <p> {{analysis}}</p>
-        </div>
     </div>
 </div>
 

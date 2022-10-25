@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { LastValueFromConfig } from 'rxjs/internal/lastValueFrom';
 import { AesService } from '../../servicios/bloque/aes.service'
 
 @Component({
@@ -12,7 +13,7 @@ export class AesComponent implements OnInit {
   textE: string = '';
   textD: string = '';
   textA: string = '';
-  key: string = '';
+  key: string ='';
   textEncrypt: string = '';
   textDesencrypt: string = '';
   analysis: string = '';
@@ -21,7 +22,7 @@ export class AesComponent implements OnInit {
   constructor(private connection: AesService, private formBuilder: FormBuilder) { 
     this.formAes = this.formBuilder.group({
       text:["",Validators.required],
-      key:[""]
+      key:[]
     })
   }
 
@@ -53,24 +54,16 @@ export class AesComponent implements OnInit {
     error=>console.log(error))
   }
   
-  capturarValoresA(){
-    if(this.formAes.valid){
-      this.aes = this.formAes.getRawValue();
-      this.connection.getAesA(this.aes.text,this.aes.key)
-      .subscribe(data=>{
-        this.analysis = data.Analisis;
-      },
-      error=>console.log(error))
-    }
-  }
 
   getRandomKey(){
+    var sizes = [16,24,32]
     this.key =""
-    var alphabet = "qwertyuiopasdfghjklzxcvbnm".split("")
-    while (alphabet.length != 0){
+    var alphabet = "qwertyuiopasdfghjklzxcvbnm1234567890".split("")
+    let largo = sizes[Math.floor(Math.random()*2)]
+    for (var i =0; i <largo ;i++ ){
     this.key += alphabet.splice(Math.floor(Math.random() * alphabet.length),1).toString()
+  }
     this.key.replace(",","")
-    }
     this.random = true;
   }
 
@@ -82,24 +75,19 @@ export class AesComponent implements OnInit {
     this.textEncrypt = '';
     this.textDesencrypt = '';
     this.analysis = '';
-    this.error = '(This key must have every char once)'
+    this.error = '(This key must have 16, 24 or 32 characters )'
   }
 
   checkValidKey(){
-    var a, x;
-    a = this.key;
-    x = false;
-
-    if(Number.isNaN(Number(this.key))){
-    for (var i = 97, _pj_a = 123; i < _pj_a; i += 1) {
-      a = a.replace(String.fromCharCode(i), "");}
-      if (a.length !== 0) {
-        this.error = '(Remember: This key must have every char once)'
-      }else{
-        this.error = ""
-      }}else if(this.key != ''){
-      this.error = '(Remember: This key is not numeric, it must have every char once)'
+    var sizes = [16,24,32]
+    var largo = this.key.length
+    if(sizes.indexOf(largo) ==-1){
+      this.error = '(Remember: This key must have 16, 24 or 32 characters  )'
+    }
+    else{
+      console.log("buena contraseña")
     }
   }
+
 }
 

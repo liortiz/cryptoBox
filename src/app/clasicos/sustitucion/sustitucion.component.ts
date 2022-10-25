@@ -89,10 +89,7 @@ export class sustitucionComponent implements OnInit {
   }
 
   checkValidKey(){
-    var a, x;
-    a = this.key;
-    x = false;
-
+    var a = this.key;
     if(Number.isNaN(Number(this.key))){
     for (var i = 97, _pj_a = 123; i < _pj_a; i += 1) {
       a = a.replace(String.fromCharCode(i), "");}
