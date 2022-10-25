@@ -16,8 +16,5 @@ export class SdesService {
   getsdesD(text:string,key:string):Observable<any>{
     return this.http.get(`${this.baseURL}/sdes/decrypt/${text}&${key}`)
   }
-  getsdesA(text:string,key:string):Observable<any>{
-    return this.http.get(`${this.baseURL}/sdes/analysis/${text}`)
-  }
 }
 
