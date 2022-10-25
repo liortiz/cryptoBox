@@ -1,4 +1,3 @@
-import this
 import numpy as np
 from Crypto.Cipher import AES
 from PIL import Image
@@ -7,13 +6,13 @@ class Aes:
 
   def __init__(self, path,key,modeStr,iv, ctr):
      
-    self.path = "backend/classCryptosystems/img/" + path
+    self.path = path
     self.name = path
     self.key = str.encode(key)
     self.iv = str.encode(iv)
     self.ctr = str.encode(ctr)
     
-    if modeStr == 'CTR':
+    if modeStr == 'ECB':
       self.mode = 1
     if modeStr == 'CBC':
       self.mode = 2
@@ -21,6 +20,8 @@ class Aes:
       self.mode = 3
     if modeStr == 'OFB':
       self.mode = 5
+    if modeStr == 'CTR':
+      self.mode = 6
 
 
   def encrypt(self):
@@ -28,9 +29,11 @@ class Aes:
     img = Image.open(self.path)
     
     if self.mode ==1:
-      img = self.encrypt_image(np.asarray(Image.open(self.path)), self.key, self.mode, initial_value=1)
-    elif self.mode>1 and self.mode <= 5:
+      img = self.encrypt_image(np.asarray(Image.open(self.path)), self.key, self.mode)
+    elif self.mode>1 and self.mode < 6:
       img = self.encrypt_image(np.asarray(Image.open(self.path)), self.key, self.mode, iv=self.iv)
+    elif self.mode == 6:
+      img = self.encrypt_image(np.asarray(Image.open(self.path)), self.key, self.mode, initial_value=self.ctr)
     
     img = Image.fromarray(img)
     img.save("backend/classCryptosystems/img/" + self.name.split('.')[0] + 'E.png',"PNG")
@@ -52,9 +55,6 @@ class Aes:
     return img
     
   def encrypt_image(self,plain_img_arr, *args, **kwargs):
-
-  
-    args = (AES.adjust_key_parity(args[0]), args[1])
 
     if args[1] == AES.MODE_CTR:
         kwargs["nonce"] = b""
