@@ -1,29 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { AesService } from '../../servicios/bloque/aes.service'
+import { TdesService } from 'src/app/servicios/bloque/tdes.service';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-aes',
-  templateUrl: './aes.component.html'
+  selector: 'app-tdes',
+  templateUrl: './tdes.component.html'
 })
-export class AesComponent implements OnInit {
-  formAes: FormGroup;
-  aes = {img: "",key:""}
+
+export class TdesComponent implements OnInit {
+  formtdes: FormGroup;
+  tdes = {img: "",key:"", mode:"", iv:"", ctr:""}
   img: string = '';
   imgName: string = '';
   imgE: string = '';
   textD: string = '';
   textA: string = '';
   key: string = '';
-  n: string = '';
+  iv: string = '';
+  ctr: string = '';
+  modes: any = ['ECB','CBC','CFB','OFB','CTR'] 
   analysis: string = '';
   random = false;
   error: string = '(This key must have every character once )'
-  constructor(private connection: AesService, private formBuilder: FormBuilder,private sanitizer: DomSanitizer) { 
-    this.formAes = this.formBuilder.group({
+  constructor(private connection: TdesService, private formBuilder: FormBuilder,private sanitizer: DomSanitizer) { 
+    this.formtdes = this.formBuilder.group({
       img:["",Validators.required],
-      key:[""]
+      key:[""],mode:[""], iv:[""], ctr:[""]
     })
   }
 
@@ -35,17 +38,17 @@ export class AesComponent implements OnInit {
     this.extraerBase64(this.img).then((imagen: any) => {
       this.img = imagen.base;
     })
-    this.aes = this.formAes.getRawValue();
-    this.imgName = this.aes.img.split('\\')[2]
+    this.tdes = this.formtdes.getRawValue();
+    this.imgName = this.tdes.img.split('\\')[2]
     this.imgE = ''
   }
 
 
 
   capturarValoresE(){        
-    this.aes = this.formAes.getRawValue();
+    this.tdes = this.formtdes.getRawValue();
     this.imgE = '../../../assets/img/loading.gif'
-    this.connection.getAesE(this.imgName,this.aes.key)
+    this.connection.gettdesE(this.imgName,this.tdes.key,this.tdes.mode,this.tdes.iv,this.tdes.ctr)
     .subscribe(res=>{ 
       console.log(res)
       this.imgE = '../../../assets/img/result.jpeg'  
@@ -53,15 +56,18 @@ export class AesComponent implements OnInit {
   }
 
   capturarValoresD(){
-    this.aes = this.formAes.getRawValue();
-    if (this.random){
-      this.aes.key = this.key
-    }
+    this.tdes = this.formtdes.getRawValue();
+    this.imgE = '../../../assets/img/loading.gif'
+    this.connection.gettdesD(this.imgName,this.tdes.key,this.tdes.mode,this.tdes.iv,this.tdes.ctr)
+    .subscribe(res=>{ 
+      console.log('des',res)
+      this.imgE = '../../../assets/img/result.jpeg'  
+    })
   }
   
   capturarValoresA(){
-    if(this.formAes.valid){
-      this.aes = this.formAes.getRawValue();
+    if(this.formtdes.valid){
+      this.tdes = this.formtdes.getRawValue();
     }
   }
 
@@ -79,6 +85,11 @@ export class AesComponent implements OnInit {
     this.img = '';
     this.imgE = '';
     this.key = '';
+    this.textD = '';
+    this.textA = '';
+    this.key = '';
+    this.iv = '';
+    this.ctr = '';
     this.analysis = '';
     this.error = '(This key must have every char once)'
   }

@@ -14,7 +14,7 @@ export class AesService {
     return this.http.get(`${this.baseURL}/aes/encrypt/${text}&${key}`)
   }
   getAesD(text:string,key:string):Observable<any>{
-    return this.http.get(`${this.baseURL}/aes/desencrypt/${text}&${key}`)
+    return this.http.get(`${this.baseURL}/aes/decrypt/${text}&${key}`)
   }
   getAesA(text:string,key:string):Observable<any>{
     return this.http.get(`${this.baseURL}/aes/analysis/${text}`)

@@ -1,4 +1,5 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 
 from classCryptosystems.afin import afin
 from classCryptosystems.desplazamiento import Desplazamiento
@@ -7,14 +8,27 @@ from classCryptosystems.sustitucion import Sustitucion
 from classCryptosystems.permutacion import permutacion
 from classCryptosystems.vigenere import Vigenere
 
+from blockCipher.tdes import TDes
+
 from utils.randomkeys import Randomkeys
 
 app = Flask(__name__)
+CORS(app)
+cors = CORS(app,resources={
+    r"/*":{
+        "origins": "*"
+    }
+})
 app.config["DEBUG"] = True
 app.debug = True
 
 def preparacion(data):
     return (''.join(char for char in data if char.isalnum())).lower()
+
+# ------------------------------------------------------------------
+# ---------------------------- CLASICOS ----------------------------
+# ------------------------------------------------------------------
+
 
 # AFIN 
 @app.route('/afin/encrypt/<data>&<a>&<b>', methods=['GET'])
@@ -82,10 +96,10 @@ def hill_encript(data,p,n):
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-@app.route('/hill/decrypt/<data>&<p>', methods=['GET'])
-def hill_decrypt(data,p):
-    textDecrypt =  hill(data,p).decrypt()
-    response = jsonify({'TextoDesencriptado': textDecrypt})
+@app.route('/hill/decrypt/<data>&<p>&<n>', methods=['GET'])
+def hill_decrypt(data,p,n):
+    textDecrypt =  hill(data,p,int(n)).decrypt()
+    response = jsonify({'TextoDesencriptado': 'textDecrypt'})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
@@ -191,6 +205,38 @@ def permutacion_random():
 def vigenere_random():
     key = Randomkeys.vigenereRandomKey()
     response = jsonify({'Key': key})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+
+# ----------------------------------------------------------------
+# ---------------------------- BLOQUE ----------------------------
+# ----------------------------------------------------------------
+
+# AFIN
+@app.route('/aes/encrypt/<data>&<p>', methods=['GET'])
+def aes_encript(data,p):
+    textEncrypt =  hill(data,p,2).encrypt()
+    response = jsonify({'TextoEncriptado': 'textEncrypt'})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+# GAMMA
+
+# SDES
+
+# TDES
+@app.route('/tdes/encrypt/<path>&<k>&<modeStr>&<iv>&<ctr>', methods=['GET'])
+def tdes_encript(path, k, modeStr, iv, ctr):
+    textEncrypt =  TDes(path, k, modeStr, iv, ctr).encrypt()
+    response = jsonify({'TextoEncriptado': 'textEncrypt'})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/tdes/decrypt/<path>&<k>&<modeStr>&<iv>&<ctr>', methods=['GET'])
+def tdes_decrypt(path, k, modeStr, iv, ctr):
+    textDecrypt =  TDes(path, k, modeStr, iv, ctr).decrypt()
+    response = jsonify({'TextoDesncriptado': 'textDecrypt'})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 

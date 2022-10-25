@@ -1,102 +1,119 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { hillService } from '../../servicios/clasicos/hill.service'
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-hill',
   templateUrl: './hill.component.html'
 })
 export class hillComponent implements OnInit {
-
   formhill: FormGroup;
-  hill = {text:"",key:"",n:"",plain_text:"",cipher_text:""}
-  textE: string;
-  textD: string;
-  textA: string;
-  key: string;
-  n: string;
-  plain_text: string;
-  cipher_text: string;
-  textEncrypt: string = '';
-  textDecrypt: string = '';
+  hill = {img: "",key:"",n:""}
+  img: string = '';
+  imgName: string = '';
+  imgE: string = '';
+  textD: string = '';
+  textA: string = '';
+  key: string = '';
+  n: string = '';
   analysis: string = '';
   random = false;
-  img: string = '';
-  imgE: string = ''
-
-
-
-  constructor(private connection: hillService, private formBuilder: FormBuilder) { 
-    this.textE = '';
-    this.textD = '';
-    this.textA = '';
-    this.key = '';
-    this.n = '';
-    this.plain_text = '';
-    this.cipher_text = '';
+  errorM: string = '(This key must be a invertible matrix in Z26)';
+  errorD: string = '(This key must be the dimention matrix)';
+  constructor(private connection: hillService, private formBuilder: FormBuilder,private sanitizer: DomSanitizer) { 
     this.formhill = this.formBuilder.group({
-      text:[""],
+      img:["",Validators.required],
       key:[""],
-      n:[""],
-      plain_text:[""],
-      cipher_text:[""],
+      n:[""]
     })
-  }  
-  
-  ngOnInit(): void {    
   }
 
-  capturarValoresE(){
+  ngOnInit(): void {
+  }
+
+  capturarFile(event:any){
+    this.img = event.target.files[0]
+    this.extraerBase64(this.img).then((imagen: any) => {
+      this.img = imagen.base;
+    })
     this.hill = this.formhill.getRawValue();
-    if (this.random){
-      this.hill.key = this.key
-    }
-    this.img = '../../../assets/img/' + this.hill.text + '.jpg'
-    this.connection.gethillE(this.hill.text,this.hill.key,this.hill.n)
-    .subscribe(data=>{
-      this.textEncrypt = data.TextoDesencriptado;
-    },
-    error=>console.log(error))
-    this.imgE = '../../../assets/img/' + this.hill.text + 'E.jpeg'
+    this.imgName = this.hill.img.split('\\')[2]
+    this.imgE = ''
+  }
+
+
+
+  capturarValoresE(){        
+    this.hill = this.formhill.getRawValue();
+    console.log(this.hill)
+    this.imgE = '../../../assets/img/loading.gif'
+    this.connection.gethillE(this.imgName,this.hill.key,this.hill.n)
+    .subscribe(res=>{ 
+      console.log(res)
+      this.imgE = '../../../assets/img/resultE.jpeg'  
+    })
   }
 
   capturarValoresD(){
     this.hill = this.formhill.getRawValue();
-    if (this.random){
-      this.hill.key = this.key
-    }
-    this.connection.gethillD(this.hill.text,this.hill.key)
-    .subscribe(data=>{
-      this.textDecrypt = data.TextoDesencriptado;
-    },
-    error=>console.log(error))
+    console.log(this.hill)
+    this.imgE = '../../../assets/img/loading.gif'
+    this.connection.gethillD(this.imgName,this.hill.key,this.hill.n)
+    .subscribe(res=>{ 
+      console.log(res)
+      this.imgE = '../../../assets/img/resultD.jpeg'  
+    })
   }
   
   capturarValoresA(){
     if(this.formhill.valid){
       this.hill = this.formhill.getRawValue();
-      this.connection.gethillA(this.hill.text,this.hill.plain_text,this.hill.cipher_text)
-      .subscribe(data=>{
-        this.analysis = data.Analisis;
-      },
-      error=>console.log(error))
     }
   }
 
   getRandomKey(){
-    this.key = String(Math.floor(Math.random() * (26 - 1 + 1)) + 1);
+    this.key =""
+    var alphabet = "qwertyuiopasdfghjklzxcvbnm".split("")
+    while (alphabet.length != 0){
+    this.key += alphabet.splice(Math.floor(Math.random() * alphabet.length),1).toString()
+    this.key.replace(",","")
+    }
     this.random = true;
   }
 
   reset(){
-    this.textE = '';
-    this.textD = '';
-    this.textA = '';
+    this.img = '';
+    this.imgE = '';
     this.key = '';
-    this.plain_text = '';
-    this.cipher_text = '';
-    this.textEncrypt = '';
-    this.textDecrypt = '';
-    this.analysis = '';
+    this.analysis = ''
   }
+
+  checkValidKey(){
+    var a, x;
+    a = this.key;
+    x = false;
+  }
+
+  extraerBase64 = async ($event: any) => new Promise((resolve, reject) => {
+    try {
+      const unsafeImg = window.URL.createObjectURL($event);
+      const image = this.sanitizer.bypassSecurityTrustUrl(unsafeImg);
+      const reader = new FileReader();
+      reader.readAsDataURL($event);
+      reader.onload = () => {
+        resolve({
+          base: reader.result
+        });
+      };
+      reader.onerror = error => {
+        resolve({
+          base: null
+        });
+      };
+      return 1
+    } catch (e) {
+      return null;
+    }
+  })
 }
