@@ -103,9 +103,9 @@ def hill_decrypt(data,p,n):
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-@app.route('/hill/analysis/<data>', methods=['GET'])
-def hill_analisis(data):
-    analisis =  hill(data,1).cryptanalysis()
+@app.route('/hill/analysis/<plain_text>&<cipher_text>', methods=['GET'])
+def hill_analisis(plain_text, cipher_text):
+    analisis =  hill(plain_text, '3,4,0,1',2).cryptanalysis(plain_text, cipher_text)
     response = jsonify({'Analisis': analisis})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response

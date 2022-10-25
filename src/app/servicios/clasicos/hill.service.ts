@@ -11,13 +11,12 @@ export class hillService {
   constructor(private http: HttpClient) { }
 
   gethillE(text:string,key:string,n:string):Observable<any>{
-    console.log("holiii")
     return this.http.get(`${this.baseURL}/hill/encrypt/${text}&${key}&${n}`)
   }
   gethillD(text:string,key:string,n:string):Observable<any>{
     return this.http.get(`${this.baseURL}/hill/decrypt/${text}&${key}&${n}`)
   }
-  gethillA(text:string,plain_text:string,cipher_text:string):Observable<any>{
+  gethillA(plain_text:string,cipher_text:string):Observable<any>{
     return this.http.get(`${this.baseURL}/hill/analysis/${plain_text}&${cipher_text}`)
   }
 }

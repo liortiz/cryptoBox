@@ -9,14 +9,15 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class hillComponent implements OnInit {
   formhill: FormGroup;
-  hill = {img: "",key:"",n:""}
+  hill = {img: "",key:"",n:"",pt:"",ct:""}
   img: string = '';
   imgName: string = '';
   imgE: string = '';
-  textD: string = '';
   textA: string = '';
   key: string = '';
   n: string = '';
+  pt: string = '';
+  ct: string = '';
   analysis: string = '';
   random = false;
   errorM: string = '(This key must be a invertible matrix in Z26)';
@@ -25,7 +26,7 @@ export class hillComponent implements OnInit {
     this.formhill = this.formBuilder.group({
       img:["",Validators.required],
       key:[""],
-      n:[""]
+      n:[""],ct:[""],pt:[""]
     })
   }
 
@@ -51,7 +52,7 @@ export class hillComponent implements OnInit {
     this.connection.gethillE(this.imgName,this.hill.key,this.hill.n)
     .subscribe(res=>{ 
       console.log(res)
-      this.imgE = '../../../assets/img/resultE.jpeg'  
+      this.imgE = '../../../assets/img/hillresultE.jpeg'  
     })
   }
 
@@ -62,14 +63,17 @@ export class hillComponent implements OnInit {
     this.connection.gethillD(this.imgName,this.hill.key,this.hill.n)
     .subscribe(res=>{ 
       console.log(res)
-      this.imgE = '../../../assets/img/resultD.jpeg'  
+      this.imgE = '../../../assets/img/hillresultD.jpeg'  
     })
   }
   
   capturarValoresA(){
-    if(this.formhill.valid){
-      this.hill = this.formhill.getRawValue();
-    }
+    this.hill = this.formhill.getRawValue();
+    console.log(this.hill)
+    this.connection.gethillA(this.hill.pt,this.hill.ct)
+    .subscribe(data=>{
+      this.analysis = data.Analisis;
+    })
   }
 
   getRandomKey(){
