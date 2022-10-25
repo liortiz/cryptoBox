@@ -7,7 +7,7 @@ import PIL.Image
 import regex as re
 from math import gcd
 from itertools import combinations
-import requests
+import os
 
 class  hill:
 
@@ -27,7 +27,7 @@ class  hill:
 
             mult_mod_256 = (np.array(mult))%256
             mult_mod_256 = np.resize(mult_mod_256,encrypted_matrix.shape)
-            mult_mod_256 = mult_mod_256.T #Transponer matriz codificada
+            #mult_mod_256 = mult_mod_256.T #Transponer matriz codificada
             return mult_mod_256
         else: #Modo desencriptar
             k_i = self.key_inverse()
@@ -67,15 +67,15 @@ class  hill:
 
 
     def encrypt(self):
-        rout = "classCryptosystems/img/" + self.file + ".jpg"
+        rout = "backend/classCryptosystems/img/" + self.file 
         image = PIL.Image.open(rout)
         bw_image = image.convert("L") #imagen a blanco y negro
         arr = np.array(bw_image) # Convertir imagen en matriz
         encrypted_matrix = self.encode_matrix(arr) #Matriz codificada
         encrypted_img = PIL.Image.fromarray(encrypted_matrix)
         encrypted_img = encrypted_img.convert("RGB")
-        encrypted_img.save("classCryptosystems/img/" + self.file + 'E.jpeg',"JPEG")
-        encrypted_img.save("../src/assets/img/" + self.file + 'E.jpeg',"JPEG")
+        encrypted_img.save("backend/classCryptosystems/img/" + self.file.split('.')[0] + 'E.png',"PNG")
+        encrypted_img.save("src/assets/img/resultE.jpeg","JPEG")
         return encrypted_img
 
 #-------------------------------------------------------------------------------------------------------------------------------------
@@ -96,14 +96,16 @@ class  hill:
         return inverse
 
     
-    def desencrypt(self,encrypted_img):
-        encrypted_matrix = (np.array(encrypted_img)).T
-        decrypted_matrix = self.encode_matrix(encrypted_matrix,False)
+    def decrypt(self):
+        rout = "backend/classCryptosystems/img/" + self.file 
+        encrypted_img = PIL.Image.open(rout)
+        encrypted_img = encrypted_img.convert("L") #imagen a blanco y negro
+        encrypted_matrix = np.array(encrypted_img)
+        decrypted_matrix = self.encode_matrix(encrypted_matrix,False)        
         desencrypted_img = PIL.Image.fromarray(decrypted_matrix)
+        encrypted_img.save("backend/classCryptosystems/img/" + self.file.split('.')[0] + 'D.png',"PNG")
+        encrypted_img.save("src/assets/img/resultD.jpeg","JPEG")
         return desencrypted_img
-        
-        
-
         
         
         # print(pow(3,-1,256)) -> hallar inverso de 3 en z256
@@ -265,13 +267,3 @@ class  hill:
         k = np.split(k,n)
 
         return np.array(k)
-
-
-
-
-
-
-
-
-        
-        
