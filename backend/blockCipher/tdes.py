@@ -1,6 +1,5 @@
 import numpy as np
 from Crypto.Cipher import DES3
-import numpy as np
 from PIL import Image
 
 class TDes:
