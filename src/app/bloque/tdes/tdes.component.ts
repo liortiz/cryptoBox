@@ -72,12 +72,24 @@ export class TdesComponent implements OnInit {
   }
 
   getRandomKey(){
+    var sizes = [16,24,32]
     this.key =""
+    this.iv = ""
+    this.ctr = ""
     var alphabet = "qwertyuiopasdfghjklzxcvbnm".split("")
-    while (alphabet.length != 0){
-    this.key += alphabet.splice(Math.floor(Math.random() * alphabet.length),1).toString()
-    this.key.replace(",","")
+    var alphabet2 = "qwertyuiopasdfghjklzxcvbnm".split("")
+    let largo = sizes[Math.floor(Math.random()*2)]
+    for (var i =0; i <largo ;i++ ){
+      this.key += alphabet.splice(Math.floor(Math.random() * alphabet.length),1).toString()
+      if(i<16){
+        this.iv += alphabet2[Math.floor(Math.random() * alphabet2.length)]
+        this.ctr += alphabet2[Math.floor(Math.random() * alphabet2.length)]
+      }
     }
+    this.key.replace(",","")
+    this.iv.replace(",","")
+    this.ctr.replace(",","")
+    this.error = ""
     this.random = true;
   }
 

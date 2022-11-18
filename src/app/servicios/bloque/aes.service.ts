@@ -20,8 +20,15 @@ export class AesService {
     console.log('enc')
     return this.http.get(`${this.baseURL}/aes/encrypt/${text}&${key}&${modeStr}&${iv}&${ctr}`)
   }
-  getAesD(text:string,key:string):Observable<any>{
-    return this.http.get(`${this.baseURL}/aes/decrypt/${text}&${key}`)
+  getAesD(text:string,key:string,modeStr:string,iv:string,ctr:string):Observable<any>{
+    if (iv == ''){
+      iv = this.getRandomKey()
+    };
+    if (ctr == ''){
+      ctr = this.getRandomKey()
+    };
+    console.log('enc')
+    return this.http.get(`${this.baseURL}/aes/decrypt/${text}&${key}&${modeStr}&${iv}&${ctr}`)
   }
   getAesA(text:string,key:string):Observable<any>{
     return this.http.get(`${this.baseURL}/Aes/analysis/${text}`)
