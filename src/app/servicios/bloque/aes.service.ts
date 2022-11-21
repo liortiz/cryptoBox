@@ -12,28 +12,33 @@ export class AesService {
 
   getAesE(text:string,key:string,modeStr:string,iv:string,ctr:string):Observable<any>{
     if (iv == ''){
-      iv = 'h'
+      iv = this.getRandomKey()
     };
     if (ctr == ''){
-      ctr = 'h'
+      ctr = this.getRandomKey()
     };
-    console.log('enc')
-    return this.http.get(`${this.baseURL}/Aes/encrypt/${text}&${key}&${modeStr}&${iv}&${ctr}`)
+    console.log('encriptandoo')
+    return this.http.get(`${this.baseURL}/aes/encrypt/${text}&${key}&${modeStr}&${iv}&${ctr}`)
   }
   getAesD(text:string,key:string,modeStr:string,iv:string,ctr:string):Observable<any>{
     if (iv == ''){
-      iv = 'h'
+      iv = this.getRandomKey()
     };
     if (ctr == ''){
-      ctr = 'h'
+      ctr = this.getRandomKey()
     };
-    console.log('des')
-    return this.http.get(`${this.baseURL}/Aes/decrypt/${text}&${key}&${modeStr}&${iv}&${ctr}`)
+    console.log('aes')
+    return this.http.get(`${this.baseURL}/aes/decrypt/${text}&${key}&${modeStr}&${iv}&${ctr}`)
   }
-  getAesA(text:string,key:string):Observable<any>{
-    return this.http.get(`${this.baseURL}/Aes/analysis/${text}`)
+  getRandomKey():string{
+    var alphabet2 = "qwertyuiopasdfghjklzxcvbnm".split("")
+    let largo = 16
+    let generated =""
+    for (var i =0; i <largo ;i++ ){
+      generated += alphabet2[Math.floor(Math.random() * alphabet2.length)]}
+    generated.replace(",","")
+    return generated
   }
-}
 
   // asciiList(text:string){
   //   var liskey =[]
@@ -43,4 +48,4 @@ export class AesService {
   //   return liskey
   // }
 
-
+  }

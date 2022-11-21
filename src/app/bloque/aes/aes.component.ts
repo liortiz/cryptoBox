@@ -75,7 +75,7 @@ export class AesComponent implements OnInit {
     let largo = sizes[Math.floor(Math.random()*2)]
     for (var i =0; i <largo ;i++ ){
     this.key += alphabet.splice(Math.floor(Math.random() * alphabet.length),1).toString()
-    if(i<8){
+    if(i<16){
       this.iv += alphabet2[Math.floor(Math.random() * alphabet2.length)]
       this.ctr += alphabet2[Math.floor(Math.random() * alphabet2.length)]
     }
