@@ -6,6 +6,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
+import { RsaComponent } from './llave/rsa/rsa.component';
+import { RabinComponent } from './llave/rabin/rabin.component';
+import { GamalComponent } from './llave/gamal/gamal.component';
 
 @NgModule({
   declarations: [
