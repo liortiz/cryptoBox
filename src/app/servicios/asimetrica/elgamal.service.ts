@@ -5,12 +5,12 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AesService {
+export class elgamalService {
   private baseURL = 'http://127.0.0.1:5000'
 
   constructor(private http: HttpClient) { }
 
-  getAesE(text:string,key:string,modeStr:string,iv:string,ctr:string):Observable<any>{
+  getelgamalE(text:string,key:string,modeStr:string,iv:string,ctr:string):Observable<any>{
     if (iv == ''){
       iv = this.getRandomKey()
     };
@@ -18,9 +18,9 @@ export class AesService {
       ctr = this.getRandomKey()
     };
     console.log('enc')
-    return this.http.get(`${this.baseURL}/aes/encrypt/${text}&${key}&${modeStr}&${iv}&${ctr}`)
+    return this.http.get(`${this.baseURL}/elgamal/encrypt/${text}&${key}&${modeStr}&${iv}&${ctr}`)
   }
-  getAesD(text:string,key:string,modeStr:string,iv:string,ctr:string):Observable<any>{
+  getelgamalD(text:string,key:string,modeStr:string,iv:string,ctr:string):Observable<any>{
     if (iv == ''){
       iv = this.getRandomKey()
     };
@@ -28,7 +28,7 @@ export class AesService {
       ctr = this.getRandomKey()
     };
     console.log('enc')
-    return this.http.get(`${this.baseURL}/aes/decrypt/${text}&${key}&${modeStr}&${iv}&${ctr}`)
+    return this.http.get(`${this.baseURL}/elgamal/decrypt/${text}&${key}&${modeStr}&${iv}&${ctr}`)
   }
 
   getRandomKey():string{
@@ -41,4 +41,3 @@ export class AesService {
     return generated
   }
 }
-
