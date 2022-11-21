@@ -74,8 +74,8 @@ class  hill:
         encrypted_matrix = self.encode_matrix(arr) #Matriz codificada
         encrypted_img = PIL.Image.fromarray(encrypted_matrix)
         encrypted_img = encrypted_img.convert("RGB")
-        encrypted_img.save("backend/classCryptosystems/img/" + self.file.split('.')[0] + 'E.png',"PNG")
-        encrypted_img.save("src/assets/img/resultE.jpeg","JPEG")
+        encrypted_img.save("backend/classCryptosystems/img/hill" + self.file.split('.')[0] + 'E.png',"PNG")
+        encrypted_img.save("src/assets/img/hillresultE.jpeg","JPEG")
         return encrypted_img
 
 #-------------------------------------------------------------------------------------------------------------------------------------
@@ -103,8 +103,9 @@ class  hill:
         encrypted_matrix = np.array(encrypted_img)
         decrypted_matrix = self.encode_matrix(encrypted_matrix,False)        
         desencrypted_img = PIL.Image.fromarray(decrypted_matrix)
-        encrypted_img.save("backend/classCryptosystems/img/" + self.file.split('.')[0] + 'D.png',"PNG")
-        encrypted_img.save("src/assets/img/resultD.jpeg","JPEG")
+        desencrypted_img = desencrypted_img.convert("RGB")
+        desencrypted_img.save("backend/classCryptosystems/img/hill" + self.file.split('.')[0] + 'D.png',"PNG")
+        desencrypted_img.save("src/assets/img/hillresultD.jpeg","JPEG")
         return desencrypted_img
         
         
@@ -245,20 +246,12 @@ class  hill:
 
         l2,l3,l4 = self.find_k(plainTextArrays,cipherTextArrays)
 
-        print("Las posibles llave de tamaño 2 son: ")
+        s = ''
         for l in l2:
-            print(l)
-            print("---------------------------------------------------------------------------")
-
-        print("Las posibles llave de tamaño 3 son: ")
-        for l in l3:
-            print(l)
-            print("---------------------------------------------------------------------------")
-
-        print("Las posibles llave de tamaño 4 son: ")
-        for l in l4:
-            print(l)
-            print("---------------------------------------------------------------------------")
+            s += np.array2string(l)
+            s += "\n"
+        print(s)
+        return s
 
     def transform_data(self,st,n):
         s = st.split(",")

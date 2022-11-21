@@ -17,7 +17,7 @@ export class AesService {
     if (ctr == ''){
       ctr = this.getRandomKey()
     };
-    console.log('encriptandoo')
+    console.log('enc')
     return this.http.get(`${this.baseURL}/aes/encrypt/${text}&${key}&${modeStr}&${iv}&${ctr}`)
   }
   getAesD(text:string,key:string,modeStr:string,iv:string,ctr:string):Observable<any>{
@@ -27,7 +27,7 @@ export class AesService {
     if (ctr == ''){
       ctr = this.getRandomKey()
     };
-    console.log('aes')
+    console.log('enc')
     return this.http.get(`${this.baseURL}/aes/decrypt/${text}&${key}&${modeStr}&${iv}&${ctr}`)
   }
   getRandomKey():string{
@@ -40,12 +40,14 @@ export class AesService {
     return generated
   }
 
-  // asciiList(text:string){
-  //   var liskey =[]
-  //   for(var i=0;i<text.length;i++){
-  //     liskey.push(text.charCodeAt(i))
-  //   }
-  //   return liskey
-  // }
-
+  getRandomKey():string{
+    var alphabet2 = "qwertyuiopasdfghjklzxcvbnm".split("")
+    let largo = 16
+    let generated =""
+    for (var i =0; i <largo ;i++ ){
+      generated += alphabet2[Math.floor(Math.random() * alphabet2.length)]}
+    generated.replace(",","")
+    return generated
   }
+}
+

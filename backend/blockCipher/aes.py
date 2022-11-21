@@ -6,7 +6,7 @@ class Aes:
 
   def __init__(self, path,key,modeStr,iv, ctr):
      
-    self.path = path
+    self.path = "backend/classCryptosystems/img/" + path
     self.name = path
     self.key = str.encode(key)
     self.iv = str.encode(iv)
@@ -37,7 +37,7 @@ class Aes:
     
     img = Image.fromarray(img)
     img.save("backend/classCryptosystems/img/" + self.name.split('.')[0] + 'E.png',"PNG")
-    img.save("src/assets/img/result.jpeg","JPEG")
+    img.save("src/assets/img/resultE.jpeg","JPEG")
     return img
 
   def decrypt(self):
@@ -51,7 +51,7 @@ class Aes:
       img = self.decrypt_image(np.asarray(Image.open(self.path)), self.key, self.mode, initial_value=self.ctr)
     img = Image.fromarray(img)
     img.save("backend/classCryptosystems/img/" + self.name.split('.')[0] + 'D.png',"PNG")
-    img.save("src/assets/img/result.jpeg","JPEG")
+    img.save("src/assets/img/resultD.jpeg","JPEG")
     return img
     
   def encrypt_image(self,plain_img_arr, *args, **kwargs):

@@ -8,7 +8,11 @@ from classCryptosystems.sustitucion import Sustitucion
 from classCryptosystems.permutacion import permutacion
 from classCryptosystems.vigenere import Vigenere
 
+
 from blockCipher.tdes import TDes
+from blockCipher.aes import Aes 
+from blockCipher.sdes import Sdes
+from blockCipher.gamma import encrypt_gammaP,graphing,decrypt_gammaP
 
 from utils.randomkeys import Randomkeys
 
@@ -103,9 +107,9 @@ def hill_decrypt(data,p,n):
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-@app.route('/hill/analysis/<data>', methods=['GET'])
-def hill_analisis(data):
-    analisis =  hill(data,1).cryptanalysis()
+@app.route('/hill/analysis/<plain_text>&<cipher_text>', methods=['GET'])
+def hill_analisis(plain_text, cipher_text):
+    analisis =  hill(plain_text, '3,4,0,1',2).cryptanalysis(plain_text, cipher_text)
     response = jsonify({'Analisis': analisis})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
@@ -213,17 +217,61 @@ def vigenere_random():
 # ---------------------------- BLOQUE ----------------------------
 # ----------------------------------------------------------------
 
-# AFIN
-@app.route('/aes/encrypt/<data>&<p>', methods=['GET'])
-def aes_encript(data,p):
-    textEncrypt =  hill(data,p,2).encrypt()
+# AES
+@app.route('/aes/encrypt/<path>&<k>&<modeStr>&<iv>&<ctr>', methods=['GET'])
+def aes_encript(path, k, modeStr, iv, ctr):
+    textEncrypt =  Aes(path, k, modeStr, iv, ctr).encrypt()
     response = jsonify({'TextoEncriptado': 'textEncrypt'})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
+@app.route('/aes/decrypt/<path>&<k>&<modeStr>&<iv>&<ctr>', methods=['GET'])
+def aes_decrypt(path, k, modeStr, iv, ctr):
+    textDecrypt =  Aes(path, k, modeStr, iv, ctr).decrypt()
+    response = jsonify({'TextoDesncriptado': 'textDecrypt'})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
 # GAMMA
+@app.route('/gamma/encrypt/<text>&<x>&<y>&<p>', methods=['GET'])
+def gamma_encript(text, x, y, p):
+    fig, matrix = graphing(int(x), int(y), p)
+    fig.update_layout(
+        margin=dict(l=20, r=20, t=20, b=20),
+        paper_bgcolor="yellowgreen",
+    )
+    fig.write_image('backend/blockCipher/gamma/gp.png')
+    fig.write_image('src/assets/img/gp.png')
+    cipher_text, percentage = encrypt_gammaP(text, matrix)
+    cipher_text = str(cipher_text).strip('[]')
+    response = jsonify({'TextoEncriptado': [cipher_text], 'porcentaje': percentage})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/gamma/decrypt/<text>&<x>&<y>&<p>', methods=['GET'])
+def gamma_decrypt(text, x, y, p):
+    fig, matrix = graphing(int(x), int(y), p)
+    text  = list(eval(text))
+    print(text)
+    textDecrypt = decrypt_gammaP(text, matrix)
+    response = jsonify({'TextoDesncriptado': str(textDecrypt)})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 # SDES
+@app.route('/sdes/encrypt/<text>&<k>', methods=['GET'])
+def sdes_encript(text, k):
+    textEncrypt =  Sdes(text, k).encrypt()
+    response = jsonify({'TextoEncriptado': textEncrypt})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/sdes/decrypt/<text>&<k>', methods=['GET'])
+def sdes_decrypt(text, k):
+    textDecrypt =  Sdes(text, k).decrypt()
+    response = jsonify({'TextoDesncriptado': textDecrypt})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 # TDES
 @app.route('/tdes/encrypt/<path>&<k>&<modeStr>&<iv>&<ctr>', methods=['GET'])

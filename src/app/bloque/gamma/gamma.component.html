@@ -1,1 +1,96 @@
-<p>gamma works!</p>
+<div class="container">
+    <div>&nbsp;</div>
+    <div>
+        <h1 class="text-center">Gamma Pentagonal</h1>
+    </div>
+    <div>&nbsp;</div>
+    <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="encrypt-tab" data-bs-toggle="tab" data-bs-target="#encrypt"
+                type="button" role="tab" aria-selected="true">Encrypt</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="decrypt-tab" data-bs-toggle="tab" data-bs-target="#decrypt" type="button"
+                role="tab" aria-selected="false">Decrypt</button>
+        </li>
+    </ul>
+    <div>&nbsp;</div>
+
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="encrypt" role="tabpanel" aria-labelledby="encrypt-tab">
+            <form class="form-horizontal" [formGroup]="formgamma" #form="ngForm"
+                (ngSubmit)="capturarValoresE()">
+                <div class="form-group">
+                    <label>Text to encrypt</label>
+                    <input matinput class="form-control" formControlName="text" name="text"  [(ngModel)]=text required>
+                </div>
+                <div>&nbsp;</div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Coordinate x</label>
+                            <input class="form-control" formControlName="x" name="x" [(ngModel)]=x>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Coordinate y</label>
+                            <input class="form-control" formControlName="y" name="y" [(ngModel)]=y>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Permutation</label>
+                            <input class="form-control" formControlName="p" name="p" [(ngModel)]=p>
+                        </div>
+                    </div>
+                </div>
+                <div>&nbsp;</div>
+                <div class="row">
+                    <div class="col-md-1"><button type="submit" class="btn btn-primary bg-dark">Submit</button></div>
+                </div>
+            </form>
+            <div>&nbsp;</div>
+            Your encrypted text:
+            <p> {{textEncrypt}}</p>  
+            Encryption percentage:
+            <p> {{percentage}}</p>
+            <img [src]='img' class="img-fluid" *ngIf="img" width=80%>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+        </div>
+
+
+        <div class="tab-pane fade" id="decrypt" role="tabpanel" aria-labelledby="decrypt-tab">
+            <form class="form-horizontal" [formGroup]="formgamma" #form="ngForm"
+                (ngSubmit)="capturarValoresD()">
+                <div class="form-group">
+                    <label>Text to decrypt</label>
+                    <input matinput class="form-control" formControlName="textE" name="textE"  [(ngModel)]=textE required>
+                </div>
+                <div>&nbsp;</div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Coordinate x</label>
+                            <input class="form-control" formControlName="x" name="x" [(ngModel)]=x>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Coordinate y</label>
+                            <input class="form-control" formControlName="y" name="y" [(ngModel)]=y>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Permutation</label>
+                            <input class="form-control" formControlName="p" name="p" [(ngModel)]=p>
+                        </div>
+                    </div>
+                </div>
+                <div>&nbsp;</div>
+                <div class="row">
+                    <div class="col-md-1"><button type="submit" class="btn btn-primary bg-dark">Submit</button></div>
+                </div>
+            </form>
+            <div>&nbsp;</div>
+            Your decrypted text:
+            <p> {{textDesencrypt}}</p>  
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+        </div>
+    </div>
+</div>

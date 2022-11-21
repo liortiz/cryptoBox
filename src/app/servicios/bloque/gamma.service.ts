@@ -10,11 +10,11 @@ export class GammaService {
 
   constructor(private http: HttpClient) { }
 
-  getgammaE(text:string,key:string):Observable<any>{
-    return this.http.get(`${this.baseURL}/gamma/encrypt/${text}&${key}`)
+  getgammaE(text:string,x:string,y:string,p:string):Observable<any>{
+    return this.http.get(`${this.baseURL}/gamma/encrypt/${text}&${x}&${y}&${p}`)
   }
-  getgammaD(text:string,key:string):Observable<any>{
-    return this.http.get(`${this.baseURL}/gamma/decrypt/${text}&${key}`)
+  getgammaD(text:string,x:string,y:string,p:string):Observable<any>{
+    return this.http.get(`${this.baseURL}/gamma/decrypt/${text}&${x}&${y}&${p}`)
   }
   getgammaA(text:string,key:string):Observable<any>{
     return this.http.get(`${this.baseURL}/gamma/analysis/${text}`)

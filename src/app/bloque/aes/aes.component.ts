@@ -51,7 +51,7 @@ export class AesComponent implements OnInit {
     this.connection.getAesE(this.imgName,this.aes.key,this.aes.mode,this.aes.iv,this.aes.ctr)
     .subscribe(res=>{ 
       console.log(res)
-      this.imgE = '../../../assets/img/result.jpeg'  
+      this.imgE = '../../../assets/img/resultE.jpeg'  
     })
   }
 
@@ -61,7 +61,7 @@ export class AesComponent implements OnInit {
     this.connection.getAesD(this.imgName,this.aes.key,this.aes.mode,this.aes.iv,this.aes.ctr)
     .subscribe(res=>{ 
       console.log('aes',res)
-      this.imgE = '../../../assets/img/result.jpeg'  
+      this.imgE = '../../../assets/img/resultD.jpeg'  
     })
   }
   
@@ -74,16 +74,16 @@ export class AesComponent implements OnInit {
     var alphabet2 = "qwertyuiopasdfghjklzxcvbnm".split("")
     let largo = sizes[Math.floor(Math.random()*2)]
     for (var i =0; i <largo ;i++ ){
-    this.key += alphabet.splice(Math.floor(Math.random() * alphabet.length),1).toString()
-    if(i<16){
-      this.iv += alphabet2[Math.floor(Math.random() * alphabet2.length)]
-      this.ctr += alphabet2[Math.floor(Math.random() * alphabet2.length)]
+      this.key += alphabet.splice(Math.floor(Math.random() * alphabet.length),1).toString()
+      if(i<16){
+        this.iv += alphabet2[Math.floor(Math.random() * alphabet2.length)]
+        this.ctr += alphabet2[Math.floor(Math.random() * alphabet2.length)]
+      }
     }
-  }
-  this.key.replace(",","")
-  this.iv.replace(",","")
-  this.ctr.replace(",","")
-  this.error = ""
+    this.key.replace(",","")
+    this.iv.replace(",","")
+    this.ctr.replace(",","")
+    this.error = ""
     this.random = true;
   }
 
