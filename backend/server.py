@@ -14,6 +14,11 @@ from blockCipher.aes import Aes
 from blockCipher.sdes import Sdes
 from blockCipher.gamma import encrypt_gammaP,graphing,decrypt_gammaP
 
+
+from publicKey.rabin import Rabin
+from publicKey.rsa import RSA
+from publicKey.elgamal import elgamal
+
 from utils.randomkeys import Randomkeys
 
 app = Flask(__name__)
@@ -284,6 +289,56 @@ def tdes_encript(path, k, modeStr, iv, ctr):
 @app.route('/tdes/decrypt/<path>&<k>&<modeStr>&<iv>&<ctr>', methods=['GET'])
 def tdes_decrypt(path, k, modeStr, iv, ctr):
     textDecrypt =  TDes(path, k, modeStr, iv, ctr).decrypt()
+    response = jsonify({'TextoDesncriptado': 'textDecrypt'})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+# -----------------------------------------------------------------
+# ------------------------- LLAVE PUBLICA -------------------------
+# -----------------------------------------------------------------
+
+# RABIN
+@app.route('/rabin/encrypt/<text>&<n>', methods=['GET'])
+def rabin_encript(text,n):
+    textEncrypt =  Rabin.encrypt(text,n)
+    response = jsonify({'TextoEncriptado': textEncrypt})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/rabin/decrypt/<text>&<p>&<q>', methods=['GET'])
+def rabin_decrypt(text,p,q):
+    textDecrypt =  Rabin.decrypt(text,p,q)
+    response = jsonify({'TextoDesncriptado': textDecrypt})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+# RSA
+@app.route('/rsa/encrypt/<text>&<pk>', methods=['GET'])
+def rsa_encript(text,pk):
+    textEncrypt =  RSA.encrypt(pk,text)
+    response = jsonify({'TextoEncriptado': textEncrypt})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/rsa/decrypt/<text>&<pk>', methods=['GET'])
+def ras_decrypt(text,pk):
+    textDecrypt =  RSA.decrypt(pk,text)
+    response = jsonify({'TextoDesncriptado': textDecrypt})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+
+# ELGAMAL
+@app.route('/gamal/encrypt/<path>&<k>&<modeStr>&<iv>&<ctr>', methods=['GET'])
+def gamal_encript(path, k, modeStr, iv, ctr):
+    textEncrypt =  elgamal(path, k, modeStr, iv, ctr).encrypt()
+    response = jsonify({'TextoEncriptado': 'textEncrypt'})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/gamal/decrypt/<path>&<k>&<modeStr>&<iv>&<ctr>', methods=['GET'])
+def gamal_decrypt(path, k, modeStr, iv, ctr):
+    textDecrypt =  elgamal(path, k, modeStr, iv, ctr).decrypt()
     response = jsonify({'TextoDesncriptado': 'textDecrypt'})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response

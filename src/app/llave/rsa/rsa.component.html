@@ -1,1 +1,95 @@
-<p>rsa works!</p>
+<div class="container">
+    <div>&nbsp;</div>
+    <div>
+        <h1 class="text-center">RSA</h1>
+    </div>
+    <div>&nbsp;</div>
+    <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="encrypt-tab" data-bs-toggle="tab" data-bs-target="#encrypt"
+                type="button" role="tab" aria-selected="true">Encrypt</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="desencrypt-tab" data-bs-toggle="tab" data-bs-target="#desencrypt" type="button"
+                role="tab" aria-selected="false">Desencrypt</button>
+        </li>
+    </ul>
+    <div>&nbsp;</div>
+
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="encrypt" role="tabpanel" aria-labelledby="encrypt-tab">
+            <form class="form-horizontal" [formGroup]="formrsa" #form="ngForm"
+                (ngSubmit)="capturarValoresE()">
+                <div class="form-group">
+                    <label>Text to encrypt</label>
+                    <input matinput class="form-control" formControlName="text" name="text"  [(ngModel)]=textE required>
+                    <span *ngIf="this.formrsa.get('text')?.errors?.['required']">
+                        (The text cannot be empty)
+                    </span>
+                </div>
+                <div>&nbsp;</div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <label>Key</label>
+                            <input class="form-control" formControlName="pk" name="pk" [(ngModel)]=pk>
+                            <p>{{this.error}}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <div>&nbsp;</div>
+                            <button type="button" class="btn btn-primary bg-dark">Random key</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div>&nbsp;</div>
+                <div class="row">
+                    <div class="col-md-1"><button type="submit" class="btn btn-primary bg-dark">Submit</button></div>
+                    <div class="col-md-1">
+                        <button type="button" class="btn btn-primary bg-dark" (click)="reset()">Reset</button>
+                    </div>
+                </div>
+            </form>
+            <div>&nbsp;</div>
+            Your text encrypt:
+            <p> {{textEncrypt}}</p>
+        </div>
+
+        <div class="tab-pane fade" id="desencrypt" role="tabpanel" aria-labelledby="desencrypt-tab">
+            <form [formGroup]="formrsa" #form="ngForm" (ngSubmit)="capturarValoresD()">
+                <div class="form-group">
+                    <label>Text to desencrypt</label> 
+                    <input matinput class="form-control" formControlName="text" name="text"  [(ngModel)]=textD required>
+                    <span *ngIf="this.formrsa.get('text')?.errors?.['required']">
+                        (The text cannot be empty)
+                    </span>
+                </div>
+                <div>&nbsp;</div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <label>Key</label>
+                            <input class="form-control" formControlName="pk" name="pk" [(ngModel)]=pk>                            
+                            <p>{{this.error}}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <div>&nbsp;</div>
+                            <button type="button" class="btn btn-primary bg-dark">Random key</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div>&nbsp;</div>
+                <div class="row">
+                    <div class="col-md-1"><button type="submit" class="btn btn-primary bg-dark">Submit</button></div>
+                    <div class="col-md-1">
+                        <button type="button" class="btn btn-primary bg-dark" (click)="reset()">Reset</button>
+                    </div>
+                </div>
+            </form>
+            <div>&nbsp;</div>
+            Your text desencrypt:
+            <p> {{textDecrypt}}</p>
+        </div>
+    </div>
+</div>
