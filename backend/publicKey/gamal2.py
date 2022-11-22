@@ -1,6 +1,4 @@
 import base64
-print("ElGamal based Elliptic Curve Cryptography\nby Dhruv Dixit:\t 15BCE1324\nVIT University, Chennai\p\nElliptic Curve General Form:\t y^2 mod p=(x^3  + a*x + b)mod p\nEnter 'p':")
-
 class Gamal2:
     #Elliptic Curve General Form:
     # (y^2)mod p =(x^3  + a*x + b)mod p

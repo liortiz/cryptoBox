@@ -9,12 +9,14 @@ import { HomeComponent } from './home/home.component';
 import { RsaComponent } from './llave/rsa/rsa.component';
 import { RabinComponent } from './llave/rabin/rabin.component';
 import { GamalComponent } from './llave/gamal/gamal.component';
+import { ManualComponent } from './manual/manual.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    HomeComponent
+    HomeComponent,
+    ManualComponent
   ],
   imports: [
     BrowserModule,
