@@ -13,7 +13,7 @@ export class rabinService {
   getrabinE(text:string,n:string):Observable<any>{
     return this.http.get(`${this.baseURL}/rabin/encrypt/${text}&${n}`)
   }
-  getrabinD(text:string,p:string,q:string):Observable<any>{
-    return this.http.get(`${this.baseURL}/rabin/decrypt/${text}&${p}&${q}`)
+  getrabinD(text:string,p:string):Observable<any>{
+    return this.http.get(`${this.baseURL}/rabin/decrypt/${text}&${p}`)
   }
 }

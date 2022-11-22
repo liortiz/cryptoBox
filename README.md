@@ -1,6 +1,9 @@
 # cryptobox
+Made by Lizeth Ortiz,Oscar Rodriguez, Diego Romero and Sofía Salinas for the "Introduction to Cryptography and Coding 2022-2" class of the National University of Colombia.
+
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.2.
+
 
 ## Development server
 

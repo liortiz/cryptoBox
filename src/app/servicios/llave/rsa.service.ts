@@ -16,4 +16,7 @@ export class rsaService {
   getrsaD(text:string,pk:string):Observable<any>{
     return this.http.get(`${this.baseURL}/rsa/decrypt/${text}&${pk}`)
   }
+  getrsaK(p1:string,p2:string):Observable<any>{
+    return this.http.get(`${this.baseURL}/rsa/getkey/${p1}&${p2}`)
+  }
 }

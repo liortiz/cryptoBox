@@ -48,10 +48,12 @@ class RSA:
       
       #Return public and private keypair
       #Public key is (e, n) and private key is (d, n)
-      return ((e, n), (d, n))
+
+      key = ''+str(e) + ',' + str(n) + ' | ' + str(d) + ',' + str(n) + ''
+      return key
   
   def encrypt(self,pk, plaintext):
-      
+      pk = tuple(map(int, pk.split(',')))
       key, n = pk
     
       cipher = [str(len(str(n)))]
@@ -71,7 +73,7 @@ class RSA:
       return base64_message
   
   def decrypt(self,pk, base64_message):
-    
+      pk = tuple(map(int, pk.split(',')))    
       key, n = pk
       
      

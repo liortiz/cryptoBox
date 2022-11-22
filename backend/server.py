@@ -300,30 +300,44 @@ def tdes_decrypt(path, k, modeStr, iv, ctr):
 # RABIN
 @app.route('/rabin/encrypt/<text>&<n>', methods=['GET'])
 def rabin_encript(text,n):
-    textEncrypt =  Rabin.encrypt(text,n)
+    textEncrypt =  Rabin().encrypt(text,n)
     response = jsonify({'TextoEncriptado': textEncrypt})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-@app.route('/rabin/decrypt/<text>&<p>&<q>', methods=['GET'])
-def rabin_decrypt(text,p,q):
-    textDecrypt =  Rabin.decrypt(text,p,q)
-    response = jsonify({'TextoDesncriptado': textDecrypt})
+@app.route('/rabin/decrypt/<text>&<p>', methods=['GET'])
+def rabin_decrypt(text,p):
+    textDecrypt =  Rabin().decrypt(text,p)
+    response = jsonify({'TextoDesencriptado': textDecrypt})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
+
+# @app.route('/rabin/getkey/<p1>&<p2>', methods=['GET'])
+# def rabin_key(p1,p2):
+#     key =  Rabin().generate_keypair(int(p1),int(p2))
+#     response = jsonify({'key': key})
+#     response.headers.add('Access-Control-Allow-Origin', '*')
+#     return response
 
 # RSA
 @app.route('/rsa/encrypt/<text>&<pk>', methods=['GET'])
 def rsa_encript(text,pk):
-    textEncrypt =  RSA.encrypt(pk,text)
+    textEncrypt =  RSA().encrypt(pk,text)
     response = jsonify({'TextoEncriptado': textEncrypt})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 @app.route('/rsa/decrypt/<text>&<pk>', methods=['GET'])
-def ras_decrypt(text,pk):
-    textDecrypt =  RSA.decrypt(pk,text)
-    response = jsonify({'TextoDesncriptado': textDecrypt})
+def rsa_decrypt(text,pk):
+    textDecrypt =  RSA().decrypt(pk,text)
+    response = jsonify({'TextoDesencriptado': textDecrypt})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/rsa/getkey/<p1>&<p2>', methods=['GET'])
+def rsa_key(p1,p2):
+    key =  RSA().generate_keypair(int(p1),int(p2))
+    response = jsonify({'key': key})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
