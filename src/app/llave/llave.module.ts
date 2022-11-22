@@ -5,6 +5,7 @@ import { RsaComponent } from './rsa/rsa.component';
 import { RabinComponent } from './rabin/rabin.component';
 import { GamalComponent } from './gamal/gamal.component';
 import { LlaveRoutingModule } from './llave-routing.module';
+import { Gamal2Component } from './gamal2/gamal2.component';
 
 
 
@@ -12,7 +13,8 @@ import { LlaveRoutingModule } from './llave-routing.module';
   declarations: [
     RsaComponent,
     RabinComponent,
-    GamalComponent
+    GamalComponent,
+    Gamal2Component
   ],
   imports: [
     CommonModule,

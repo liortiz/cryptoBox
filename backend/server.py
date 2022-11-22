@@ -18,6 +18,7 @@ from blockCipher.gamma import encrypt_gammaP,graphing,decrypt_gammaP
 from publicKey.rabin import Rabin
 from publicKey.rsa import RSA
 from publicKey.gamal import Gamal
+from publicKey.gamal2 import Gamal2
 
 from utils.randomkeys import Randomkeys
 
@@ -360,6 +361,28 @@ def gamal_decrypt(msg,q,h,g):
 @app.route('/gamal/key', methods=['GET'])
 def gamal_key():
     q,g,k,h =  Gamal().gen_values()
+    response = jsonify({'q':q,'g':g,'k':k,'h':h})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+# ELGAMAL2
+@app.route('/gamal2/encrypt/<p>&<a>&<b>&<key>&<k>&<msg>', methods=['GET'])
+def gamal2_encript(p,a,b,key,k,msg):
+    textEncrypt,p =  Gamal2(p,a,b,key,k,msg).encrypt()
+    response = jsonify({'TextoEncriptado': textEncrypt,'p':p})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/gamal2/decrypt/<p>&<a>&<b>&<key>&<k>&<msg>', methods=['GET'])
+def gamal2_decrypt(p,a,b,key,k,msg):
+    textDecrypt =  Gamal2(p,a,b,key,k,msg).decrypt()
+    response = jsonify({'TextoDesencriptado': textDecrypt})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/gamal2/key', methods=['GET'])
+def gamal2_key():
+    q,g,k,h =  Gamal2().gen_values()
     response = jsonify({'q':q,'g':g,'k':k,'h':h})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
