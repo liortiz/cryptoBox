@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
+from flask import render_template
 
 from classCryptosystems.afin import afin
 from classCryptosystems.desplazamiento import Desplazamiento
@@ -10,7 +11,7 @@ from classCryptosystems.vigenere import Vigenere
 
 
 from blockCipher.tdes import TDes
-from blockCipher.aes import Aes 
+from blockCipher.aes import Aes
 from blockCipher.sdes import Sdes
 from blockCipher.gamma import encrypt_gammaP,graphing,decrypt_gammaP
 
@@ -40,7 +41,11 @@ def preparacion(data):
 # ------------------------------------------------------------------
 
 
-# AFIN 
+@app.route('/', methods=['GET'])
+def root():
+    return render_template("index.html")
+
+# AFIN
 @app.route('/afin/encrypt/<data>&<a>&<b>', methods=['GET'])
 def afin_encript(data,a,b):
     data = preparacion(data)
@@ -69,7 +74,7 @@ def afin_analisis(data,fcl, fdl, scl, sdl):
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-# DESPLAZAMIENTO 
+# DESPLAZAMIENTO
 @app.route('/desplazamiento/encrypt/<data>&<p>', methods=['GET'])
 def desplazamiento_encript(data,p):
     data = preparacion(data)
@@ -98,7 +103,7 @@ def desplazamiento_analisis(data):
     return response
 
 
-# HILL 
+# HILL
 @app.route('/hill/encrypt/<data>&<p>&<n>', methods=['GET'])
 def hill_encript(data,p,n):
     psnr =  hill(data,p,int(n)).encrypt()
@@ -120,7 +125,7 @@ def hill_analisis(plain_text, cipher_text):
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-# PERMUTACION 
+# PERMUTACION
 @app.route('/permutacion/encrypt/<data>&<p>', methods=['GET'])
 def permutacion_encript(data,p):
     data = preparacion(data)
@@ -129,7 +134,7 @@ def permutacion_encript(data,p):
     response = jsonify({'TextoEncriptado': textEncrypt})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
-    
+
 
 @app.route('/permutacion/decrypt/<data>&<p>', methods=['GET'])
 def permutacion_decrypt(data,p):
@@ -147,7 +152,7 @@ def permutacion_analisis(data):
     return response
 
 
-# SUSTITUCION 
+# SUSTITUCION
 @app.route('/sustitucion/encrypt/<data>&<p>', methods=['GET'])
 def sustitution_encript(data,p):
     textEncrypt =  Sustitucion(data,p).encrypt()
