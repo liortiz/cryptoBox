@@ -19,6 +19,7 @@ export class TdesComponent implements OnInit {
   key: string = '';
   iv: string = '';
   ctr: string = '';
+  psnrE: string = '';
   modes: any = ['ECB','CBC','CFB','OFB','CTR'] 
   analysis: string = '';
   random = false;
@@ -50,7 +51,8 @@ export class TdesComponent implements OnInit {
     this.imgE = '../../../assets/img/loading.gif'
     this.connection.gettdesE(this.imgName,this.tdes.key,this.tdes.mode,this.tdes.iv,this.tdes.ctr)
     .subscribe(res=>{ 
-      console.log(res)
+      console.log(res);
+      this.psnrE = res.psnr;
       this.imgE = '../../../assets/img/result.jpeg'  
     })
   }

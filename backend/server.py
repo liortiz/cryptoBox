@@ -17,7 +17,7 @@ from blockCipher.gamma import encrypt_gammaP,graphing,decrypt_gammaP
 
 from publicKey.rabin import Rabin
 from publicKey.rsa import RSA
-from publicKey.elgamal import elgamal
+from publicKey.gamal import Gamal
 
 from utils.randomkeys import Randomkeys
 
@@ -225,15 +225,15 @@ def vigenere_random():
 # AES
 @app.route('/aes/encrypt/<path>&<k>&<modeStr>&<iv>&<ctr>', methods=['GET'])
 def aes_encript(path, k, modeStr, iv, ctr):
-    textEncrypt =  Aes(path, k, modeStr, iv, ctr).encrypt()
-    response = jsonify({'TextoEncriptado': 'textEncrypt'})
+    psnr =  Aes(path, k, modeStr, iv, ctr).encrypt()
+    response = jsonify({'psnr': psnr})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 @app.route('/aes/decrypt/<path>&<k>&<modeStr>&<iv>&<ctr>', methods=['GET'])
 def aes_decrypt(path, k, modeStr, iv, ctr):
-    textDecrypt =  Aes(path, k, modeStr, iv, ctr).decrypt()
-    response = jsonify({'TextoDesncriptado': 'textDecrypt'})
+    psnr =  Aes(path, k, modeStr, iv, ctr).decrypt()
+    response = jsonify({'psnr': psnr})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
@@ -281,8 +281,8 @@ def sdes_decrypt(text, k):
 # TDES
 @app.route('/tdes/encrypt/<path>&<k>&<modeStr>&<iv>&<ctr>', methods=['GET'])
 def tdes_encript(path, k, modeStr, iv, ctr):
-    textEncrypt =  TDes(path, k, modeStr, iv, ctr).encrypt()
-    response = jsonify({'TextoEncriptado': 'textEncrypt'})
+    psnr =  TDes(path, k, modeStr, iv, ctr).encrypt()
+    response = jsonify({'psnr': psnr})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
@@ -343,17 +343,24 @@ def rsa_key(p1,p2):
 
 
 # ELGAMAL
-@app.route('/gamal/encrypt/<path>&<k>&<modeStr>&<iv>&<ctr>', methods=['GET'])
-def gamal_encript(path, k, modeStr, iv, ctr):
-    textEncrypt =  elgamal(path, k, modeStr, iv, ctr).encrypt()
-    response = jsonify({'TextoEncriptado': 'textEncrypt'})
+@app.route('/gamal/encrypt/<msg>&<q>&<h>&<g>', methods=['GET'])
+def gamal_encript(msg,q,h,g):
+    textEncrypt,p =  Gamal().encrypt(msg,q,h,g)
+    response = jsonify({'TextoEncriptado': textEncrypt,'p':p})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-@app.route('/gamal/decrypt/<path>&<k>&<modeStr>&<iv>&<ctr>', methods=['GET'])
-def gamal_decrypt(path, k, modeStr, iv, ctr):
-    textDecrypt =  elgamal(path, k, modeStr, iv, ctr).decrypt()
-    response = jsonify({'TextoDesncriptado': 'textDecrypt'})
+@app.route('/gamal/decrypt/<msg>&<q>&<h>&<g>', methods=['GET'])
+def gamal_decrypt(msg,q,h,g):
+    textDecrypt =  Gamal().decrypt(msg,q,h,g)
+    response = jsonify({'TextoDesencriptado': textDecrypt})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/gamal/key', methods=['GET'])
+def gamal_key():
+    q,g,k,h =  Gamal().gen_values()
+    response = jsonify({'q':q,'g':g,'k':k,'h':h})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 

@@ -8,6 +8,7 @@ import regex as re
 from math import gcd
 from itertools import combinations
 import os
+from math import log10, sqrt
 
 class  hill:
 
@@ -263,11 +264,14 @@ class  hill:
 
         return np.array(k)
     
-    def PSNR(original_p, cipher_p):
+    def PSNR(self,original_p, cipher_p):
         original =PIL.Image.open(original_p)
         compressed = PIL.Image.open(cipher_p)
         original = np.array(original)
         compressed = np.array(compressed)
+        if original.shape[0] != compressed.shape[0]:
+            n = compressed.shape[0] - original.shape[0]
+            compressed = compressed[0:(compressed.shape[0] - n),:,:]
         mse = np.mean((original - compressed) ** 2)
         if(mse == 0):  # MSE is zero means no noise is present in the signal .
                     # Therefore PSNR have no importance.

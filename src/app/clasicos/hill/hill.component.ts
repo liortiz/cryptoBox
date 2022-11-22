@@ -18,7 +18,7 @@ export class hillComponent implements OnInit {
   n: string = '';
   pt: string = '';
   ct: string = '';
-  psnrE: string = '1';
+  psnrE: string = '';
   psnrD: string = '';
   analysis: string = '';
   random = false;

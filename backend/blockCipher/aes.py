@@ -1,6 +1,8 @@
 import numpy as np
 from Crypto.Cipher import AES
 from PIL import Image
+import PIL
+from math import log10, sqrt
 
 class Aes:
 
@@ -36,9 +38,11 @@ class Aes:
       img = self.encrypt_image(np.asarray(Image.open(self.path)), self.key, self.mode, initial_value=self.ctr)
     
     img = Image.fromarray(img)
-    img.save("backend/classCryptosystems/img/" + self.name.split('.')[0] + 'E.png',"PNG")
+    routE = "backend/classCryptosystems/img/" + self.name.split('.')[0] + 'E.png'
+    img.save(routE,"PNG")
     img.save("src/assets/img/resultE.jpeg","JPEG")
-    return img
+    psnr = self.PSNR(self.path, routE)
+    return psnr
 
   def decrypt(self):
     img = Image.open(self.path)
@@ -50,9 +54,11 @@ class Aes:
     elif self.mode == 6:
       img = self.decrypt_image(np.asarray(Image.open(self.path)), self.key, self.mode, initial_value=self.ctr)
     img = Image.fromarray(img)
+    routE = "backend/classCryptosystems/img/hill" + self.file.split('.')[0] + 'E.png'
     img.save("backend/classCryptosystems/img/" + self.name.split('.')[0] + 'D.png',"PNG")
     img.save("src/assets/img/resultD.jpeg","JPEG")
-    return img
+    psnr = self.PSNR(self.path, "backend/classCryptosystems/img/" + self.name.split('.')[0] + 'D.png')
+    return psnr
     
   def encrypt_image(self,plain_img_arr, *args, **kwargs):
 
@@ -109,3 +115,20 @@ class Aes:
           plain_img_arr = img_arr[:-num_pad_rows, :]
   
       return plain_img_arr
+  
+  def PSNR(self,original_p, cipher_p):
+    original =PIL.Image.open(original_p)
+    compressed = PIL.Image.open(cipher_p)
+    original = np.array(original)
+    compressed = np.array(compressed)
+    if original.shape[0] != compressed.shape[0]:
+        n = compressed.shape[0] - original.shape[0]
+        compressed = compressed[0:(compressed.shape[0] - n),:,:]
+        
+    mse = np.mean((original - compressed) ** 2)
+    if(mse == 0):  # MSE is zero means no noise is present in the signal .
+                # Therefore PSNR have no importance.
+        return 100
+    max_pixel = 255.0
+    psnr = 20 * log10(max_pixel / sqrt(mse))
+    return psnr
