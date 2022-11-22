@@ -368,14 +368,14 @@ def gamal_key():
 # ELGAMAL2
 @app.route('/gamal2/encrypt/<p>&<a>&<b>&<key>&<k>&<msg>', methods=['GET'])
 def gamal2_encript(p,a,b,key,k,msg):
-    textEncrypt,p =  Gamal2(p,a,b,key,k,msg).encrypt()
+    textEncrypt =  Gamal2(p,a,b,key,k,msg).encrypt()
     response = jsonify({'TextoEncriptado': textEncrypt,'p':p})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-@app.route('/gamal2/decrypt/<p>&<a>&<b>&<key>&<k>&<msg>', methods=['GET'])
-def gamal2_decrypt(p,a,b,key,k,msg):
-    textDecrypt =  Gamal2(p,a,b,key,k,msg).decrypt()
+@app.route('/gamal2/decrypt/<msg>&<key>', methods=['GET'])
+def gamal2_decrypt(key,msg):
+    textDecrypt =  Gamal2(1,1,1,1,1,'a').decrypt(msg,key)
     response = jsonify({'TextoDesencriptado': textDecrypt})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response

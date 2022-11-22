@@ -10,7 +10,7 @@ class Gamal2:
         self.b = int(b)
         self.key = int(key) #<p
         self.msg = msg.lower()
-        self.k = k #random <ps
+        self.k = int(k) #random <ps
         self.LHS=[[]]
         self.RHS=[[]]
         self.LHS.append([])
@@ -57,21 +57,32 @@ class Gamal2:
             #Cipher text 1 generation
             C1x=self.k*bx
             C1y=self.k*by
-            encripted = []
+            encripted = '['
             M=[(ord(character)-97) for character in self.msg]
             #Cipher text 2 generation
             for m in M:
                 C2x=self.k*Qx+m
                 C2y=self.k*Qy+m
-                encripted.append([C1x,C2x])
-            print(encripted)
+                encripted += '['+ str(C1x) + ',' + str(C2x) + '],'
+                print([C1x,C2x],encripted)
+            print(type(encripted), '--------------------------')
+            encripted = encripted[:-1]
+            encripted += ']'
 
             return  encripted
 
     def decrypt(self,encripted,key):
+        encripted = encripted[:-2]
+        encripted = encripted[2:]
+        print(encripted)
+        encripted = encripted.split('],[')
+        print(encripted)
+        key = int(key)
         decripted = ""
         for e in encripted:
-            Mx=e[1]-key*e[0]
+            e = e.split(',')
+            print(e)
+            Mx=int(e[1])-key*int(e[0])
             if( Mx >= 0):
                 decripted+= chr(Mx+97)
             else:
@@ -94,6 +105,7 @@ def main():
     m = input()
     mensaje = Gamal2(p,a,b,key,k,m)
     en = mensaje.encrypt()
+    print('-----------------------',type(en))
     mensaje.decrypt(en,key)
         
 if __name__ == '__main__':

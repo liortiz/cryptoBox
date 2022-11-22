@@ -14,7 +14,7 @@ export class Gamal2Service {
     return this.http.get(`${this.baseURL}/gamal2/encrypt/${p}&${a}&${b}&${key}&${k}&${msg}`)
   }
   getgamal2D(p:string,a:string,b:string,key:string,k:string,msg:string):Observable<any>{
-    return this.http.get(`${this.baseURL}/gamal2/decrypt/${p}&${a}&${b}&${key}&${k}&${msg}`)
+    return this.http.get(`${this.baseURL}/gamal2/decrypt/${msg}&${key}`)
   }
   getgamal2K():Observable<any>{
     return this.http.get(`${this.baseURL}/gamal2/key`)
