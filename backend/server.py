@@ -100,15 +100,15 @@ def desplazamiento_analisis(data):
 # HILL 
 @app.route('/hill/encrypt/<data>&<p>&<n>', methods=['GET'])
 def hill_encript(data,p,n):
-    textEncrypt =  hill(data,p,int(n)).encrypt()
-    response = jsonify({'TextoEncriptado': "hill"})
+    psnr =  hill(data,p,int(n)).encrypt()
+    response = jsonify({'psnr': psnr})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 @app.route('/hill/decrypt/<data>&<p>&<n>', methods=['GET'])
 def hill_decrypt(data,p,n):
-    textDecrypt =  hill(data,p,int(n)).decrypt()
-    response = jsonify({'TextoDesencriptado': 'textDecrypt'})
+    psnr =  hill(data,p,int(n)).decrypt()
+    response = jsonify({'psnr': psnr})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
