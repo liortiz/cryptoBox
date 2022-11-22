@@ -6,6 +6,7 @@ import base64
 class Rabin:
 
   def encrypt(self,plaintext,n):
+      n = int(n)
       cipher = []
       maxlen = 0
       for character in plaintext:
@@ -37,8 +38,8 @@ class Rabin:
       
       return base64_message
 
-  def decrypt(self,base64_message,p,q):
-
+  def decrypt(self,base64_message,key):
+    p,q = tuple(map(int, key.split(',')))    
     plaintext = ''
     
     base64_bytes = base64_message.encode('ascii')

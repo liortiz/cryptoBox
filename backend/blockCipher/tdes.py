@@ -1,6 +1,8 @@
 import numpy as np
 from Crypto.Cipher import DES3
 from PIL import Image
+import PIL
+from math import log10, sqrt
 
 class TDes:
 
@@ -37,7 +39,8 @@ class TDes:
     img = Image.fromarray(img)
     img.save("backend/classCryptosystems/img/" + self.name.split('.')[0] + 'E.png',"PNG")
     img.save("src/assets/img/result.jpeg","JPEG")
-    return img
+    psnr = self.PSNR(self.path, "backend/classCryptosystems/img/" + self.name.split('.')[0] + 'E.png')
+    return psnr
 
   def decrypt(self):
     
@@ -113,3 +116,19 @@ class TDes:
           plain_img_arr = img_arr[:-num_pad_rows, :]
   
       return plain_img_arr
+  
+  def PSNR(self,original_p, cipher_p):
+    original =PIL.Image.open(original_p)
+    compressed = PIL.Image.open(cipher_p)
+    original = np.array(original)
+    compressed = np.array(compressed)
+    if original.shape[0] != compressed.shape[0]:
+        n = compressed.shape[0] - original.shape[0]
+        compressed = compressed[0:(compressed.shape[0] - n),:,:]
+    mse = np.mean((original - compressed) ** 2)
+    if(mse == 0):  # MSE is zero means no noise is present in the signal .
+                # Therefore PSNR have no importance.
+        return 100
+    max_pixel = 255.0
+    psnr = 20 * log10(max_pixel / sqrt(mse))
+    return psnr

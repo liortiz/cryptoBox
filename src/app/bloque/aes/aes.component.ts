@@ -19,6 +19,8 @@ export class AesComponent implements OnInit {
   key: string = '';
   iv: string = '';
   ctr: string = '';
+  psnrE: string = '';
+  psnrD: string = '';
   modes: any = ['CTR','CBC','CFB','OFB'] 
   analysis: string = '';
   random = false;
@@ -51,6 +53,7 @@ export class AesComponent implements OnInit {
     this.connection.getAesE(this.imgName,this.aes.key,this.aes.mode,this.aes.iv,this.aes.ctr)
     .subscribe(res=>{ 
       console.log(res)
+      this.psnrE = res.psnr;
       this.imgE = '../../../assets/img/resultE.jpeg'  
     })
   }
@@ -61,6 +64,7 @@ export class AesComponent implements OnInit {
     this.connection.getAesD(this.imgName,this.aes.key,this.aes.mode,this.aes.iv,this.aes.ctr)
     .subscribe(res=>{ 
       console.log('aes',res)
+      this.psnrD = res.psnr;
       this.imgE = '../../../assets/img/resultD.jpeg'  
     })
   }

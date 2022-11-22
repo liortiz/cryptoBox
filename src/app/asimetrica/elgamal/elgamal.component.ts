@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { TdesService } from 'src/app/servicios/bloque/tdes.service';
+import { elgamalService } from '../../servicios/asimetrica/elgamal.service'
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-tdes',
-  templateUrl: './tdes.component.html'
+  selector: 'app-elgamal',
+  templateUrl: './elgamal.component.html'
 })
 
-export class TdesComponent implements OnInit {
-  formtdes: FormGroup;
-  tdes = {img: "",key:"", mode:"", iv:"", ctr:""}
+export class elgamalComponent implements OnInit {
+  formelgamal: FormGroup;
+  elgamal = {img: "",key:"", mode:"", iv:"", ctr:""}
   img: string = '';
   imgName: string = '';
   imgE: string = '';
@@ -19,13 +19,12 @@ export class TdesComponent implements OnInit {
   key: string = '';
   iv: string = '';
   ctr: string = '';
-  psnrE: string = '';
-  modes: any = ['ECB','CBC','CFB','OFB','CTR'] 
+  modes: any = ['Eliptic Curves','Zp'] 
   analysis: string = '';
   random = false;
   error: string = '(This key must have every character once )'
-  constructor(private connection: TdesService, private formBuilder: FormBuilder,private sanitizer: DomSanitizer) { 
-    this.formtdes = this.formBuilder.group({
+  constructor(private connection: elgamalService, private formBuilder: FormBuilder,private sanitizer: DomSanitizer) { 
+    this.formelgamal = this.formBuilder.group({
       img:["",Validators.required],
       key:[""],mode:[""], iv:[""], ctr:[""]
     })
@@ -39,40 +38,33 @@ export class TdesComponent implements OnInit {
     this.extraerBase64(this.img).then((imagen: any) => {
       this.img = imagen.base;
     })
-    this.tdes = this.formtdes.getRawValue();
-    this.imgName = this.tdes.img.split('\\')[2]
+    this.elgamal = this.formelgamal.getRawValue();
+    this.imgName = this.elgamal.img.split('\\')[2]
     this.imgE = ''
   }
 
 
 
   capturarValoresE(){        
-    this.tdes = this.formtdes.getRawValue();
+    this.elgamal = this.formelgamal.getRawValue();
     this.imgE = '../../../assets/img/loading.gif'
-    this.connection.gettdesE(this.imgName,this.tdes.key,this.tdes.mode,this.tdes.iv,this.tdes.ctr)
+    this.connection.getelgamalE(this.imgName,this.elgamal.key,this.elgamal.mode,this.elgamal.iv,this.elgamal.ctr)
     .subscribe(res=>{ 
-      console.log(res);
-      this.psnrE = res.psnr;
-      this.imgE = '../../../assets/img/result.jpeg'  
+      console.log(res)
+      this.imgE = '../../../assets/img/resultE.jpeg'  
     })
   }
 
   capturarValoresD(){
-    this.tdes = this.formtdes.getRawValue();
+    this.elgamal = this.formelgamal.getRawValue();
     this.imgE = '../../../assets/img/loading.gif'
-    this.connection.gettdesD(this.imgName,this.tdes.key,this.tdes.mode,this.tdes.iv,this.tdes.ctr)
+    this.connection.getelgamalD(this.imgName,this.elgamal.key,this.elgamal.mode,this.elgamal.iv,this.elgamal.ctr)
     .subscribe(res=>{ 
-      console.log('des',res)
-      this.imgE = '../../../assets/img/result.jpeg'  
+      console.log('elgamal',res)
+      this.imgE = '../../../assets/img/resultD.jpeg'  
     })
   }
   
-  capturarValoresA(){
-    if(this.formtdes.valid){
-      this.tdes = this.formtdes.getRawValue();
-    }
-  }
-
   getRandomKey(){
     var sizes = [16,24,32]
     this.key =""
@@ -105,13 +97,14 @@ export class TdesComponent implements OnInit {
     this.iv = '';
     this.ctr = '';
     this.analysis = '';
-    this.error = '(This key must have every char once)'
+    this.error = '(This key must have 16, 24 or 32 characters )'
   }
 
   checkValidKey(){
-    var a, x;
-    a = this.key;
-    x = false;
+    var sizes = [16,24,32]
+    if(sizes.indexOf(this.key.length)== -1){
+      this.error = 'Remember : (This key must have 16, 24 or 32 characters )'
+    }
   }
 
   extraerBase64 = async ($event: any) => new Promise((resolve, reject) => {

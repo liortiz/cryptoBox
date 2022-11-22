@@ -1,7 +1,7 @@
 <div class="container">
     <div>&nbsp;</div>
     <div>
-        <h1 class="text-center">ElGamal Zp</h1>
+        <h1 class="text-center">ElGamal Elliptic Curve</h1>
     </div>
     <div>&nbsp;</div>
     <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
@@ -18,40 +18,49 @@
 
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="encrypt" role="tabpanel" aria-labelledby="encrypt-tab">
-            <form class="form-horizontal" [formGroup]="formgamal" #form="ngForm"
+            <form class="form-horizontal" [formGroup]="formgamal2" #form="ngForm"
                 (ngSubmit)="capturarValoresE()">
                 <div class="form-group">
                     <label>Text to encrypt</label>
                     <input matinput class="form-control" formControlName="textE" name="textE"  [(ngModel)]=textE required>
-                    <span *ngIf="this.formgamal.get('textE')?.errors?.['required']">
+                    <span *ngIf="this.formgamal2.get('textE')?.errors?.['required']">
                         (The text cannot be empty)
                     </span>
                 </div>
                 <div>&nbsp;</div>
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-3">
-                            <label>Key q</label>
-                            <input class="form-control" formControlName="q" name="q" [(ngModel)]=q>
-                            <p>{{this.error}}</p>
+                        <div class="col-md-4">
+                            <label>Key p</label>
+                            <input class="form-control" formControlName="p" name="p" [(ngModel)]=p>
                         </div>
                         <div class="col-md-4">
-                            <label>Key h</label>
-                            <input class="form-control" formControlName="h" name="h" [(ngModel)]=h>
-                            <p>{{this.error}}</p>
+                            <label>Key a</label>
+                            <input class="form-control" formControlName="a" name="a" [(ngModel)]=a>
                         </div>
-                        <div class="col-md-3">
-                            <label>Key g</label>
-                            <input class="form-control" formControlName="g" name="g" [(ngModel)]=g>
-                            <p>{{this.error}}</p>
+                        <div class="col-md-4">
+                            <label>Key b</label>
+                            <input class="form-control" formControlName="b" name="b" [(ngModel)]=b>
                         </div>
-                        <div class="col-md-2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Private key of Sender (key &#60; p)</label>
+                            <input class="form-control" formControlName="key" name="key" [(ngModel)]=key>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Private key of Sender (k &#60; p)</label>
+                            <input class="form-control" formControlName="k" name="k" [(ngModel)]=k>
+                        </div>
+                        <div class="col-md-4">
                             <div>&nbsp;</div>
                             <button type="button" class="btn btn-primary bg-dark" (click)="getRandomKey()">Random key</button>
                         </div>
                     </div>
                 </div>
-                <p>Your Private key: {{this.key}}</p>
+                
 
                 <div>&nbsp;</div>
                 <div class="row">
@@ -65,42 +74,28 @@
             Your text encrypt:
             <p> {{textEncrypt}}</p>
 
-            Your p:
-            <p> {{this.p}}</p>
         </div>
 
         <div class="tab-pane fade" id="desencrypt" role="tabpanel" aria-labelledby="desencrypt-tab">
-            <form [formGroup]="formgamal" #form="ngForm" (ngSubmit)="capturarValoresD()">
+            <form [formGroup]="formgamal2" #form="ngForm" (ngSubmit)="capturarValoresD()">
                 <div class="form-group">
                     <label>Text to decrypt</label>
                     <input matinput class="form-control" formControlName="textD" name="textD"  [(ngModel)]=textD required>
-                    <span *ngIf="this.formgamal.get('textD')?.errors?.['required']">
+                    <span *ngIf="this.formgamal2.get('textD')?.errors?.['required']">
                         (The text cannot be empty)
                     </span>
                 </div>
                 <div>&nbsp;</div>
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-3">
-                            <label>Key p</label>
-                            <input class="form-control" formControlName="p" name="p" [(ngModel)]=p>
-                            <p>{{this.error}}</p>
+                        <div class="col-md-8">
+                            <label>Private key of Sender (key &#60; p)</label>
+                            <input class="form-control" formControlName="key" name="key" [(ngModel)]=key>
                         </div>
                         <div class="col-md-4">
-                            <label>Private key</label>
-                            <input class="form-control" formControlName="key" name="key" [(ngModel)]=key>
-                            <p>{{this.error}}</p>
-                        </div>
-                        <div class="col-md-3">
-                            <label>Key q</label>
-                            <input class="form-control" formControlName="q" name="q" [(ngModel)]=q>
-                            <p>{{this.error}}</p>
-                        </div>
-                        <div class="col-md-2">
                             <div>&nbsp;</div>
                             <button type="button" class="btn btn-primary bg-dark" (click)="getRandomKey()">Random key</button>
                         </div>
-                        
                     </div>
                 </div>
                 <div>&nbsp;</div>

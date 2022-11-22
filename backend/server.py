@@ -14,6 +14,12 @@ from blockCipher.aes import Aes
 from blockCipher.sdes import Sdes
 from blockCipher.gamma import encrypt_gammaP,graphing,decrypt_gammaP
 
+
+from publicKey.rabin import Rabin
+from publicKey.rsa import RSA
+from publicKey.gamal import Gamal
+from publicKey.gamal2 import Gamal2
+
 from utils.randomkeys import Randomkeys
 
 app = Flask(__name__)
@@ -95,15 +101,15 @@ def desplazamiento_analisis(data):
 # HILL 
 @app.route('/hill/encrypt/<data>&<p>&<n>', methods=['GET'])
 def hill_encript(data,p,n):
-    textEncrypt =  hill(data,p,int(n)).encrypt()
-    response = jsonify({'TextoEncriptado': "hill"})
+    psnr =  hill(data,p,int(n)).encrypt()
+    response = jsonify({'psnr': psnr})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 @app.route('/hill/decrypt/<data>&<p>&<n>', methods=['GET'])
 def hill_decrypt(data,p,n):
-    textDecrypt =  hill(data,p,int(n)).decrypt()
-    response = jsonify({'TextoDesencriptado': 'textDecrypt'})
+    psnr =  hill(data,p,int(n)).decrypt()
+    response = jsonify({'psnr': psnr})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
@@ -220,15 +226,15 @@ def vigenere_random():
 # AES
 @app.route('/aes/encrypt/<path>&<k>&<modeStr>&<iv>&<ctr>', methods=['GET'])
 def aes_encript(path, k, modeStr, iv, ctr):
-    textEncrypt =  Aes(path, k, modeStr, iv, ctr).encrypt()
-    response = jsonify({'TextoEncriptado': 'textEncrypt'})
+    psnr =  Aes(path, k, modeStr, iv, ctr).encrypt()
+    response = jsonify({'psnr': psnr})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 @app.route('/aes/decrypt/<path>&<k>&<modeStr>&<iv>&<ctr>', methods=['GET'])
 def aes_decrypt(path, k, modeStr, iv, ctr):
-    textDecrypt =  Aes(path, k, modeStr, iv, ctr).decrypt()
-    response = jsonify({'TextoDesncriptado': 'textDecrypt'})
+    psnr =  Aes(path, k, modeStr, iv, ctr).decrypt()
+    response = jsonify({'psnr': psnr})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
@@ -276,8 +282,8 @@ def sdes_decrypt(text, k):
 # TDES
 @app.route('/tdes/encrypt/<path>&<k>&<modeStr>&<iv>&<ctr>', methods=['GET'])
 def tdes_encript(path, k, modeStr, iv, ctr):
-    textEncrypt =  TDes(path, k, modeStr, iv, ctr).encrypt()
-    response = jsonify({'TextoEncriptado': 'textEncrypt'})
+    psnr =  TDes(path, k, modeStr, iv, ctr).encrypt()
+    response = jsonify({'psnr': psnr})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
@@ -285,6 +291,99 @@ def tdes_encript(path, k, modeStr, iv, ctr):
 def tdes_decrypt(path, k, modeStr, iv, ctr):
     textDecrypt =  TDes(path, k, modeStr, iv, ctr).decrypt()
     response = jsonify({'TextoDesncriptado': 'textDecrypt'})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+# -----------------------------------------------------------------
+# ------------------------- LLAVE PUBLICA -------------------------
+# -----------------------------------------------------------------
+
+# RABIN
+@app.route('/rabin/encrypt/<text>&<n>', methods=['GET'])
+def rabin_encript(text,n):
+    textEncrypt =  Rabin().encrypt(text,n)
+    response = jsonify({'TextoEncriptado': textEncrypt})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/rabin/decrypt/<text>&<p>', methods=['GET'])
+def rabin_decrypt(text,p):
+    textDecrypt =  Rabin().decrypt(text,p)
+    response = jsonify({'TextoDesencriptado': textDecrypt})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+# @app.route('/rabin/getkey/<p1>&<p2>', methods=['GET'])
+# def rabin_key(p1,p2):
+#     key =  Rabin().generate_keypair(int(p1),int(p2))
+#     response = jsonify({'key': key})
+#     response.headers.add('Access-Control-Allow-Origin', '*')
+#     return response
+
+# RSA
+@app.route('/rsa/encrypt/<text>&<pk>', methods=['GET'])
+def rsa_encript(text,pk):
+    textEncrypt =  RSA().encrypt(pk,text)
+    response = jsonify({'TextoEncriptado': textEncrypt})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/rsa/decrypt/<text>&<pk>', methods=['GET'])
+def rsa_decrypt(text,pk):
+    textDecrypt =  RSA().decrypt(pk,text)
+    response = jsonify({'TextoDesencriptado': textDecrypt})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/rsa/getkey/<p1>&<p2>', methods=['GET'])
+def rsa_key(p1,p2):
+    key =  RSA().generate_keypair(int(p1),int(p2))
+    response = jsonify({'key': key})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+
+# ELGAMAL
+@app.route('/gamal/encrypt/<msg>&<q>&<h>&<g>', methods=['GET'])
+def gamal_encript(msg,q,h,g):
+    textEncrypt,p =  Gamal().encrypt(msg,q,h,g)
+    response = jsonify({'TextoEncriptado': textEncrypt,'p':p})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/gamal/decrypt/<msg>&<q>&<h>&<g>', methods=['GET'])
+def gamal_decrypt(msg,q,h,g):
+    textDecrypt =  Gamal().decrypt(msg,q,h,g)
+    response = jsonify({'TextoDesencriptado': textDecrypt})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/gamal/key', methods=['GET'])
+def gamal_key():
+    q,g,k,h =  Gamal().gen_values()
+    response = jsonify({'q':q,'g':g,'k':k,'h':h})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+# ELGAMAL2
+@app.route('/gamal2/encrypt/<p>&<a>&<b>&<key>&<k>&<msg>', methods=['GET'])
+def gamal2_encript(p,a,b,key,k,msg):
+    textEncrypt =  Gamal2(p,a,b,key,k,msg).encrypt()
+    response = jsonify({'TextoEncriptado': textEncrypt,'p':p})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/gamal2/decrypt/<msg>&<key>', methods=['GET'])
+def gamal2_decrypt(key,msg):
+    textDecrypt =  Gamal2(1,1,1,1,1,'a').decrypt(msg,key)
+    response = jsonify({'TextoDesencriptado': textDecrypt})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route('/gamal2/key', methods=['GET'])
+def gamal2_key():
+    q,g,k,h =  Gamal2().gen_values()
+    response = jsonify({'q':q,'g':g,'k':k,'h':h})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 

@@ -8,6 +8,7 @@ import regex as re
 from math import gcd
 from itertools import combinations
 import os
+from math import log10, sqrt
 
 class  hill:
 
@@ -74,9 +75,11 @@ class  hill:
         encrypted_matrix = self.encode_matrix(arr) #Matriz codificada
         encrypted_img = PIL.Image.fromarray(encrypted_matrix)
         encrypted_img = encrypted_img.convert("RGB")
-        encrypted_img.save("backend/classCryptosystems/img/hill" + self.file.split('.')[0] + 'E.png',"PNG")
+        routE = "backend/classCryptosystems/img/hill" + self.file.split('.')[0] + 'E.png'
+        encrypted_img.save(routE,"PNG")
         encrypted_img.save("src/assets/img/hillresultE.jpeg","JPEG")
-        return encrypted_img
+        psnr = self.PSNR(rout, routE)
+        return psnr
 
 #-------------------------------------------------------------------------------------------------------------------------------------
     def key_inverse(self):
@@ -260,3 +263,19 @@ class  hill:
         k = np.split(k,n)
 
         return np.array(k)
+    
+    def PSNR(self,original_p, cipher_p):
+        original =PIL.Image.open(original_p)
+        compressed = PIL.Image.open(cipher_p)
+        original = np.array(original)
+        compressed = np.array(compressed)
+        if original.shape[0] != compressed.shape[0]:
+            n = compressed.shape[0] - original.shape[0]
+            compressed = compressed[0:(compressed.shape[0] - n),:,:]
+        mse = np.mean((original - compressed) ** 2)
+        if(mse == 0):  # MSE is zero means no noise is present in the signal .
+                    # Therefore PSNR have no importance.
+            return 100
+        max_pixel = 255.0
+        psnr = 20 * log10(max_pixel / sqrt(mse))
+        return psnr

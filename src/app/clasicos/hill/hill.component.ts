@@ -18,6 +18,8 @@ export class hillComponent implements OnInit {
   n: string = '';
   pt: string = '';
   ct: string = '';
+  psnrE: string = '';
+  psnrD: string = '';
   analysis: string = '';
   random = false;
   errorM: string = '(This key must be a invertible matrix in Z26)';
@@ -52,6 +54,7 @@ export class hillComponent implements OnInit {
     this.connection.gethillE(this.imgName,this.hill.key,this.hill.n)
     .subscribe(res=>{ 
       console.log(res)
+      this.psnrE = res.psnr;
       this.imgE = '../../../assets/img/hillresultE.jpeg'  
     })
   }
