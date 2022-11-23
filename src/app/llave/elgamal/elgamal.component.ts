@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { elgamalService } from '../../servicios/asimetrica/elgamal.service'
 import { DomSanitizer } from '@angular/platform-browser';
 
+
 @Component({
   selector: 'app-elgamal',
   templateUrl: './elgamal.component.html'
