@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  url:'https://cryptobox.herokuapp.com/'
+  url:'https://crypto--box.herokuapp.com/'
 };
