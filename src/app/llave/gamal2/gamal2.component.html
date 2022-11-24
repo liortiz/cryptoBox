@@ -21,42 +21,19 @@
             <form class="form-horizontal" [formGroup]="formgamal2" #form="ngForm"
                 (ngSubmit)="capturarValoresE()">
                 <div class="form-group">
-                    <label>Text to encrypt</label>
-                    <input matinput class="form-control" formControlName="textE" name="textE"  [(ngModel)]=textE required>
-                    <span *ngIf="this.formgamal2.get('textE')?.errors?.['required']">
-                        (The text cannot be empty)
-                    </span>
-                </div>
-                <div>&nbsp;</div>
-                <div class="form-group">
                     <div class="row">
-                        <div class="col-md-4">
-                            <label>Key p</label>
-                            <input class="form-control" formControlName="p" name="p" [(ngModel)]=p>
+                        <div class="col-md-9">
+                            <label>Text to encrypt</label>
+                            <input matinput class="form-control" formControlName="textE" name="textE"  [(ngModel)]=textE required>
+                            <span *ngIf="this.formgamal2.get('textE')?.errors?.['required']">
+                                (The text cannot be empty)
+                            </span>
                         </div>
-                        <div class="col-md-4">
-                            <label>Key a</label>
-                            <input class="form-control" formControlName="a" name="a" [(ngModel)]=a>
-                        </div>
-                        <div class="col-md-4">
-                            <label>Key b</label>
-                            <input class="form-control" formControlName="b" name="b" [(ngModel)]=b>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label>Private key of Sender (key &#60; p)</label>
-                            <input class="form-control" formControlName="key" name="key" [(ngModel)]=key>
-                        </div>
-                        <div class="col-md-4">
-                            <label>Private key of Sender (k &#60; p)</label>
-                            <input class="form-control" formControlName="k" name="k" [(ngModel)]=k>
-                        </div>
-                        <div class="col-md-4">
-                            <div>&nbsp;</div>
-                            <button type="button" class="btn btn-primary bg-dark" (click)="getRandomKey()">Random key</button>
+                        <div class="col-md-3">
+                            <label>Mode</label><div>&nbsp;</div>
+                                <select formControlName="mode">
+                                    <option *ngFor="let suit of modes">{{suit}}</option>
+                                  </select>
                         </div>
                     </div>
                 </div>
@@ -79,22 +56,13 @@
         <div class="tab-pane fade" id="desencrypt" role="tabpanel" aria-labelledby="desencrypt-tab">
             <form [formGroup]="formgamal2" #form="ngForm" (ngSubmit)="capturarValoresD()">
                 <div class="form-group">
-                    <label>Text to decrypt</label>
-                    <input matinput class="form-control" formControlName="textD" name="textD"  [(ngModel)]=textD required>
-                    <span *ngIf="this.formgamal2.get('textD')?.errors?.['required']">
-                        (The text cannot be empty)
-                    </span>
-                </div>
-                <div>&nbsp;</div>
-                <div class="form-group">
                     <div class="row">
-                        <div class="col-md-8">
-                            <label>Private key of Sender (key &#60; p)</label>
-                            <input class="form-control" formControlName="key" name="key" [(ngModel)]=key>
-                        </div>
-                        <div class="col-md-4">
-                            <div>&nbsp;</div>
-                            <button type="button" class="btn btn-primary bg-dark" (click)="getRandomKey()">Random key</button>
+                        <div class="col-md-12">
+                            <label>Text to decrypt</label>
+                            <input matinput class="form-control" formControlName="textD" name="textD"  [(ngModel)]=textD required>
+                            <span *ngIf="this.formgamal2.get('textE')?.errors?.['required']">
+                                (The text cannot be empty)
+                            </span>
                         </div>
                     </div>
                 </div>

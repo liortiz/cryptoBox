@@ -10,14 +10,15 @@ import { Gamal2Service } from 'src/app/servicios/llave/gamal2.service';
 export class Gamal2Component implements OnInit {
 
   formgamal2: FormGroup;
-  gamal2 = {textE:'',textD:'',p:'',a:'',b:'',k:'',key:''};
+  gamal2 = {textE:'',textD:'',mode:'',a:'',b:'',k:'',key:''};
   textE: string = '';
   textD: string = '';
-  p: string = '';
+  mode: string = '';
   a: string = '';
   b: string = '';
   k: string = '';
   key: string = '';
+  modes: any = ['NIST P-192','NIST P-224','NIST P-256','NIST P-384','NIST P-521','Ed25519','Ed448']
   textEncrypt: string = '';
   textDecrypt: string = '';
   error: string = '';
@@ -26,7 +27,7 @@ export class Gamal2Component implements OnInit {
   constructor(private conection: Gamal2Service, private formBuilder: FormBuilder) {
     this.formgamal2 = this.formBuilder.group({
       textE:[""],textD:[""],
-      p:[""],
+      mode:[""],
       a:[""],
       b:[""],
       key:[""],
@@ -41,10 +42,10 @@ export class Gamal2Component implements OnInit {
 
   capturarValoresE(){
     this.gamal2 = this.formgamal2.getRawValue();
-    this.conection.getgamal2E(this.gamal2.p,this.gamal2.a,this.gamal2.b,this.gamal2.key,this.gamal2.k,this.gamal2.textE)
+    this.conection.getgamal2E(this.gamal2.textE,this.gamal2.mode)
     .subscribe(data=>{
       this.textEncrypt = data.TextoEncriptado;
-      this.p = data.p;
+      this.key = data.key;
       console.log(data)
     },
     error=>console.log(error))
@@ -52,7 +53,7 @@ export class Gamal2Component implements OnInit {
 
   capturarValoresD(){
     this.gamal2 = this.formgamal2.getRawValue();
-    this.conection.getgamal2D(this.gamal2.p,this.gamal2.a,this.gamal2.b,this.gamal2.key,this.gamal2.k,this.gamal2.textD)
+    this.conection.getgamal2D(this.gamal2.textD)
     .subscribe(data=>{
       this.textDecrypt = data.TextoDesencriptado;
     },
@@ -64,7 +65,7 @@ export class Gamal2Component implements OnInit {
   reset(){
     this.textE = '';
     this.textD = '';
-    this.p = '';
+    this.mode = '';
     this.a = '';
     this.b = '';
     this.k = '';

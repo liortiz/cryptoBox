@@ -10,11 +10,11 @@ export class Gamal2Service {
 
   constructor(private http: HttpClient) { }
 
-  getgamal2E(p:string,a:string,b:string,key:string,k:string,msg:string):Observable<any>{
-    return this.http.get(`${this.baseURL}/gamal2/encrypt/${p}&${a}&${b}&${key}&${k}&${msg}`)
+  getgamal2E(msg:string,mode:string):Observable<any>{
+    return this.http.get(`${this.baseURL}/gamal2/encrypt/${msg}&${mode}`)
   }
-  getgamal2D(p:string,a:string,b:string,key:string,k:string,msg:string):Observable<any>{
-    return this.http.get(`${this.baseURL}/gamal2/decrypt/${msg}&${key}`)
+  getgamal2D(msg:string):Observable<any>{
+    return this.http.get(`${this.baseURL}/gamal2/decrypt/${msg}`)
   }
   getgamal2K():Observable<any>{
     return this.http.get(`${this.baseURL}/gamal2/key`)
